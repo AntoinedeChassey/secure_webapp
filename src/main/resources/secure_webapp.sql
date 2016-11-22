@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id_user`, `username`, `password`, `surname`, `name`, `avatar`, `country`, `date`) VALUES
-(1, 'user@gmail.com', 'a7c14558ed371427e188f29540a575922d28f2441ad1012f:39f505ee29653e11f3c9622ed3f257b6a9cd6ec1574c4723', 'Bob', 'Dupont', './img/users/default.jpg', 'Canada', '2017-03-16 14:50:04');
+(1, 'user@gmail.com', '9fbbbc3c1df4471640d96961ae19b09fc2dab0bb28b01760f31fb833fe0d5d51f11c31be3ce102c2a44aed1af75ddaca1622c7cf5f58c708d2c3c9f880c361d8:0f0e5bc4501ba02f90b7e8e825b5fbcbf49a8c0e3fafe9dc40c4907a6341c7695a593d184a209931e2ed85306d1a59e87e397fafaa28ca851af203db0e58c3bf', 'Bob', 'Dupont', './img/users/default.jpg', 'Canada', '2017-03-16 14:50:04');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

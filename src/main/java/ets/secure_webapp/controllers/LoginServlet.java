@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
 
 		try {
 			if (authorizedUsers.containsKey(usernameInput)
-					&& PasswordEncryption.validerMotDePasse(passwordInput, authorizedUsers.get(usernameInput))) {
+					&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
 
 				System.out.println("[INFO] - Saving user attributes to session...");
 				User user = AppManager.getInstance().getUserByUsername(usernameInput);

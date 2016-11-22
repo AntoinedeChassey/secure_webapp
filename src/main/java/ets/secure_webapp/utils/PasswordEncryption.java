@@ -14,9 +14,9 @@ public class PasswordEncryption {
 	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
 
 	// Taille du sel
-	public static final int SALT_BYTE_SIZE = 24;
+	public static final int SALT_BYTE_SIZE = 64; // 512/8
 	// Taille du hash généré
-	public static final int HASH_BYTE_SIZE = 24;
+	public static final int HASH_BYTE_SIZE = 64; // 512/8
 
 	// Nombre d'itération effectuées par l'algorithme
 	// Le but est de ralentir le traitement pour rendre compliqué le piratage de
@@ -31,7 +31,7 @@ public class PasswordEncryption {
 		random.nextBytes(sel);
 
 		// Hash du mot de passe
-		byte[] hash = genererHash(password, sel);
+		byte[] hash = generateHash(password, sel);
 
 		// format salt:hash
 		return toHex(sel) + ":" + toHex(hash);
@@ -40,7 +40,7 @@ public class PasswordEncryption {
 	// Validation du mot de passe
 	// On ne déchiffre pas le hash, on va recalculer le hash avec le mot de
 	// passe saisi et vérifier qu'on obtient le même résultat
-	public static boolean validerMotDePasse(String password, String hashCorrect)
+	public static boolean validatePassword(String password, String hashCorrect)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Séparation du hash et du sel
 		String[] params = hashCorrect.split(":");
@@ -48,7 +48,7 @@ public class PasswordEncryption {
 		byte[] hash = fromHex(params[1]);
 
 		// Génération du hash du mot de passe testé avec le même sel
-		byte[] hashAValider = genererHash(password, sel);
+		byte[] hashAValider = generateHash(password, sel);
 		// Comparaison des deux hash
 		return Arrays.equals(hash, hashAValider);
 	}
@@ -56,7 +56,7 @@ public class PasswordEncryption {
 	// Méthode calculant le hash
 	// C'est là qu'est toute la sécurisation, on utilise des classes
 	// javax.crypto.
-	private static byte[] genererHash(String password, byte[] sel)
+	private static byte[] generateHash(String password, byte[] sel)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), sel, PBKDF2_ITERATIONS, HASH_BYTE_SIZE * 8);
 		SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
@@ -86,7 +86,7 @@ public class PasswordEncryption {
 	// Génération des mots de passe de nos utilisateurs
 	public static void main(String[] args) {
 		try {
-			System.out.println(String.format("user@gmail.com=%s", PasswordEncryption.generatePassword("test")));
+			System.out.println(String.format("user@gmail.com=%s", PasswordEncryption.generatePassword("user")));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
