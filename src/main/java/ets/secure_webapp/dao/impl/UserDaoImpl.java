@@ -14,12 +14,16 @@ import ets.secure_webapp.entities.User;
 import ets.secure_webapp.utils.PasswordEncryption;
 
 public class UserDaoImpl implements UserDao {
-
+	
+	private Connection getConnection() throws SQLException {
+		return DataSourceProvider.getInstance().getDataSource().getConnection();
+	}
+	
 	@Override
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<User>();
 		try {
-			Connection connection = DataSourceProvider.getDataSource().getConnection();
+			Connection connection = getConnection();
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -38,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User getUserByUsername(String username) {
 		try {
-			Connection connection = DataSourceProvider.getDataSource().getConnection();
+			Connection connection = getConnection();
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE username=?");
 			stmt.setString(1, username);
 
@@ -58,7 +62,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User setUserPassword(Integer id_user, String newPassword) {
 		try {
-			Connection connection = DataSourceProvider.getDataSource().getConnection();
+			Connection connection = getConnection();
 
 			PreparedStatement stmt = connection.prepareStatement("UPDATE user SET password=? WHERE id_user=?");
 
