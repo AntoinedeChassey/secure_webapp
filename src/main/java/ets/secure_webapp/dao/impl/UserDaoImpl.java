@@ -14,11 +14,11 @@ import ets.secure_webapp.entities.User;
 import ets.secure_webapp.utils.PasswordEncryption;
 
 public class UserDaoImpl implements UserDao {
-	
+
 	private Connection getConnection() throws SQLException {
 		return DataSourceProvider.getInstance().getDataSource().getConnection();
 	}
-	
+
 	@Override
 	public List<User> getAllUsers() {
 		List<User> users = new ArrayList<User>();
@@ -27,9 +27,9 @@ public class UserDaoImpl implements UserDao {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				User user = new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"),
-						rs.getString("surname"), rs.getString("name"), rs.getString("avatar"), rs.getString("country"),
-						rs.getDate("date"));
+				User user = new User(rs.getInt("id_user"), rs.getInt("admin"), rs.getString("username"),
+						rs.getString("password"), rs.getString("surname"), rs.getString("name"), rs.getString("avatar"),
+						rs.getString("country"), rs.getDate("date"));
 				users.add(user);
 			}
 			connection.close();
@@ -48,9 +48,9 @@ public class UserDaoImpl implements UserDao {
 
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				return new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"),
-						rs.getString("surname"), rs.getString("name"), rs.getString("avatar"), rs.getString("country"),
-						rs.getDate("date"));
+				return new User(rs.getInt("id_user"), rs.getInt("admin"), rs.getString("username"),
+						rs.getString("password"), rs.getString("surname"), rs.getString("name"), rs.getString("avatar"),
+						rs.getString("country"), rs.getDate("date"));
 			}
 			connection.close();
 		} catch (SQLException e) {

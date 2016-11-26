@@ -45,7 +45,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="page-header">
-					Hello <small>Secure Web App <i>GTI-619</i></small>
+					Welcome <small>Secure Web Application <i>GTI-619</i></small>
 				</h1>
 			</div>
 		</div>
@@ -53,24 +53,38 @@
 
 		<!-- App Row -->
 		<div class="row">
-			<div class="col-md-12">
-
-				
-				<!-- /.col-lg-12 -->
-
-
+			<div class="col-md-12" id="links">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-primary" onclick="welcome()">
+						<i class="fa fa-home fa-fw"></i> Welcome
+					</button>
+					<button type="button" class="btn btn-warning"
+						onclick="administration()">
+						<i class="fa fa-gear fa-fw"></i> Administration
+					</button>
+					<button type="button" class="btn btn-danger" onclick="logout()">
+						<i class="fa fa-sign-out fa-fw"></i> Logout
+					</button>
+				</div>
+				<!-- /.col-md-12 -->
 			</div>
-			<!-- /.col-md-12 -->
-		</div>
-		<!-- /.row -->
 
+			<div class="col-md-12">
+				<div class="col-md-offset-4">
+					<img class="img-responsive" src="img/test.png" alt="">
+				</div>
+				<!-- /.col-md-12 -->
+			</div>
+
+			<!-- /.row -->
+		</div>
 
 
 		<!-- Footer -->
 		<footer>
 			<div class="row">
 				<div class="col-md-12">
-					<p>Copyright &copy; ??? - 2016</p>
+					<p>Copyright &copy; LAB5 - 2016</p>
 				</div>
 			</div>
 			<!-- /.row -->
@@ -83,8 +97,6 @@
 	<script src="plugins/js/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="plugins/js/bootstrap.min.js"></script>
-	<!-- MQTT -->
-	<script src="plugins/js/mqttws31.js"></script>
 	<!-- jGrowl -->
 	<script src="plugins/js/jquery.jgrowl.min.js"></script>
 

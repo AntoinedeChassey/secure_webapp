@@ -1,23 +1,27 @@
-body{
-    background-image: url(../img/background.png);
-    color: #F1F1F1;
+body {
+	background-image: url(../img/background.png);
+	color: #F1F1F1;
 }
 
-.panel{
-    padding: 30px;
-    border: thin;
-    border-style: solid;
-    background-color: rgba(255, 255, 255, 0);
+#links {
+	margin: 20px;
 }
 
-#addressPanel{
+.panel {
+	padding: 30px;
+	border: thin;
+	border-style: solid;
+	background-color: rgba(255, 255, 255, 0);
+}
+
+#addressPanel {
 	display: none;
 }
 
-.delete{
+.delete {
 	color: #F94242;
 }
 
-.delete:hover{
+.delete:hover {
 	color: #F1F1F1;
 }

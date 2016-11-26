@@ -86,7 +86,8 @@ public class PasswordEncryption {
 	// Génération des mots de passe de nos utilisateurs
 	public static void main(String[] args) {
 		try {
-			System.out.println(String.format("user@gmail.com=%s", PasswordEncryption.generatePassword("user")));
+			System.out.println(String.format("user@test.com=%s", PasswordEncryption.generatePassword("user")));
+			System.out.println(String.format("admin@test.com=%s", PasswordEncryption.generatePassword("admin")));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
