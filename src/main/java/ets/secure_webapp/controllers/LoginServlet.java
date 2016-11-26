@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 	public void init() throws ServletException {
 		authorizedUsers = new HashMap<>();
 
-		List<User> users = AppManager.getInstance().getAllUsers();
+		List<User> users = AppManager.getInstance().getUsers();
 		for (int i = 0; i < users.size(); i++) {
 			authorizedUsers.put(users.get(i).getUsername(), users.get(i).getPassword());
 		}
@@ -48,6 +48,11 @@ public class LoginServlet extends HttpServlet {
 			view.forward(request, response);
 		} else {
 			try {
+
+				System.out.println(
+						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
+				System.out.println("[INFO] - Setting maxInactiveInterval: " + user.getRole().getMaxInactiveInterval());
+				request.getSession().setMaxInactiveInterval(user.getRole().getMaxInactiveInterval());
 				response.sendRedirect("welcome");
 			} catch (Exception e) {
 				// e.printStackTrace();

@@ -5,7 +5,7 @@ import java.util.Date;
 public class User {
 
 	private Integer id_user;
-	private Integer admin;
+	private Role role;
 	private String username;
 	private String password;
 	private String surname;
@@ -14,11 +14,11 @@ public class User {
 	private String country;
 	private Date date;
 
-	public User(Integer id_user, Integer admin, String username, String password, String surname, String name,
+	public User(Integer id_user, Role role, String username, String password, String surname, String name,
 			String avatar, String country, Date date) {
 		super();
 		this.id_user = id_user;
-		this.admin = admin;
+		this.role = role;
 		this.username = username;
 		this.password = password;
 		this.surname = surname;
@@ -31,7 +31,7 @@ public class User {
 	// Custom methods
 
 	public boolean isAdmin() {
-		if (admin == 1) {
+		if (role.getName().equals("admin")) {
 			return true;
 		}
 		return false;
@@ -45,12 +45,12 @@ public class User {
 		this.id_user = id_user;
 	}
 
-	public Integer getAdmin() {
-		return admin;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setAdmin(Integer admin) {
-		this.admin = admin;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public String getUsername() {

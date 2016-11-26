@@ -6,7 +6,7 @@ import ets.secure_webapp.entities.User;
 
 public interface UserDao {
 
-	public List<User> getAllUsers();
+	public List<User> getUsers();
 
 	public User getUserByUsername(String username);
 	

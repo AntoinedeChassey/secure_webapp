@@ -72,42 +72,86 @@
 
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>id_user</th>
-									<th>Admin</th>
-									<th>Username</th>
-									<th>Password</th>
-									<th>Surname</th>
-									<th>Name</th>
-									<th>Avatar</th>
-									<th>Country</th>
-									<th>Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="user" items="${users}" varStatus="loop">
+					<div class="panel-heading">
+						<h3 class="panel-title">View users</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
 									<tr>
-										<td>${loop.index+1}</td>
-										<td>${user.id_user}</td>
-										<td>${user.admin}</td>
-										<td>${user.username}</td>
-										<td>********</td>
-										<td>${user.surname}</td>
-										<td>${user.name}</td>
-										<td>${user.avatar}</td>
-										<td>${user.country}</td>
-										<td>${user.date}</td>
+										<th>#</th>
+										<th>id_user</th>
+										<th>Role - id_role</th>
+										<th>Role - name</th>
+										<th>Role - maxInactiveInterval</th>
+										<th>Username</th>
+										<th>Password</th>
+										<th>Surname</th>
+										<th>Name</th>
+										<th>Avatar</th>
+										<th>Country</th>
+										<th>Date</th>
 									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									<c:forEach var="user" items="${users}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td>${user.id_user}</td>
+											<td>${user.role.id_role}</td>
+											<td class="text-danger"><b>${user.role.name}</b></td>
+											<td>${user.role.maxInactiveInterval}</td>
+											<td class="text-success">${user.username}</td>
+											<td>********</td>
+											<td>${user.surname}</td>
+											<td>${user.name}</td>
+											<td>${user.avatar}</td>
+											<td>${user.country}</td>
+											<td>${user.date}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-				<!-- /.col-lg-12 -->
+				<!-- /.panel -->
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Set users</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>id_user</th>
+										<th>Role</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="user" items="${users}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td>${user.id_user}</td>
+											<td><select class="form-control">
+													<c:forEach var="role" items="${roles}">
+														<option>${role.name}</option>
+													</c:forEach>
+											</select></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel -->
+
 
 
 			</div>

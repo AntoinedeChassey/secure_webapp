@@ -66,18 +66,21 @@
 						<i class="fa fa-sign-out fa-fw"></i> Logout
 					</button>
 				</div>
-				<!-- /.col-md-12 -->
+
 			</div>
+			<!-- /.col-md-12 -->
 
 			<div class="col-md-12">
 				<div class="col-md-offset-4">
 					<img class="img-responsive" src="img/test.png" alt="">
 				</div>
-				<!-- /.col-md-12 -->
-			</div>
 
-			<!-- /.row -->
+			</div>
+			<!-- /.col-md-12 -->
+
+
 		</div>
+		<!-- /.row -->
 
 
 		<!-- Footer -->

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
 import ets.secure_webapp.managers.AppManager;
 
@@ -22,8 +23,11 @@ public class AdministrationServlet extends GenericServlet {
 			throws ServletException, IOException {
 		super.doGet(request, response);
 
-		List<User> users = AppManager.getInstance().getAllUsers();
+		List<User> users = AppManager.getInstance().getUsers();
 		request.setAttribute("users", users);
+		
+		List<Role> roles = AppManager.getInstance().getRoles();
+		request.setAttribute("roles", roles);
 
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/admin.jsp");
 		view.forward(request, response);

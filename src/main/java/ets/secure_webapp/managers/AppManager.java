@@ -2,8 +2,11 @@ package ets.secure_webapp.managers;
 
 import java.util.List;
 
+import ets.secure_webapp.dao.RoleDao;
 import ets.secure_webapp.dao.UserDao;
+import ets.secure_webapp.dao.impl.RoleDaoImpl;
 import ets.secure_webapp.dao.impl.UserDaoImpl;
+import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
 
 public class AppManager {
@@ -18,14 +21,15 @@ public class AppManager {
 	}
 
 	private UserDao userDao = new UserDaoImpl();
+	private RoleDao	roleDao = new RoleDaoImpl();
 
 	private AppManager() {
 	}
 
 	// User methods
 
-	public List<User> getAllUsers() {
-		return userDao.getAllUsers();
+	public List<User> getUsers() {
+		return userDao.getUsers();
 	}
 
 	public User getUserByUsername(String username) {
@@ -34,5 +38,11 @@ public class AppManager {
 
 	public User setUserPassword(Integer id_user, String newPassword) {
 		return userDao.setUserPassword(id_user, newPassword);
+	}
+	
+	// Role methods
+	
+	public List<Role> getRoles() {
+		return roleDao.getRoles();
 	}
 }
