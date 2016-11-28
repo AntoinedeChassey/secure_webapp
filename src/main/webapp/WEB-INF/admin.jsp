@@ -71,6 +71,8 @@
 			</div>
 
 			<div class="col-md-12">
+
+				<!--
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">View users</h3>
@@ -121,7 +123,7 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Set users</h3>
+						<h3 class="panel-title">Users</h3>
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
@@ -131,18 +133,70 @@
 										<th>#</th>
 										<th>id_user</th>
 										<th>Role</th>
+										<th>Username</th>
+										<th>Password</th>
+										<th>Surname</th>
+										<th>Name</th>
+										<th>Avatar</th>
+										<th>Country</th>
+										<th>Date</th>
+										<th>Options</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="user" items="${users}" varStatus="loop">
 										<tr>
 											<td>${loop.index+1}</td>
-											<td>${user.id_user}</td>
-											<td><select class="form-control">
+											<td class="id_user">${user.id_user}</td>
+											<td><select class="roleName form-control">
 													<c:forEach var="role" items="${roles}">
-														<option>${role.name}</option>
+														<option class="text-danger">${role.name}</option>
 													</c:forEach>
 											</select></td>
+											<td class="username text-success">${user.username}</td>
+											<td class="password">********</td>
+											<td class="surname">${user.surname}</td>
+											<td class="name">${user.name}</td>
+											<td class="avatar">${user.avatar}</td>
+											<td class="country">${user.country}</td>
+											<td class="date">${user.date}</td>
+											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel -->
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Roles</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>id_role</th>
+										<th>Name</th>
+										<th>MaxInactiveInterval</th>
+										<th>Options</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="role" items="${roles}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td class="id_role">${role.id_role}</td>
+											<td class="name">${role.name}</td>
+											<td class="maxInactiveInterval">${role.maxInactiveInterval}</td>
+											<td><i class="updateRole fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteRole fa fa-trash fa-lg"></i></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -180,7 +234,9 @@
 	<script src="plugins/js/bootstrap.min.js"></script>
 	<!-- jGrowl -->
 	<script src="plugins/js/jquery.jgrowl.min.js"></script>
-
+	<!-- Bootbox JS -->
+	<script src="plugins/js/bootbox.min.js"></script>
+	
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>
 </body>

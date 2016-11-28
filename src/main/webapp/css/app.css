@@ -18,10 +18,16 @@ body {
 	display: none;
 }
 
-.delete {
-	color: #F94242;
+.updateUser, .updateRole {
+	color: #49c837;
 }
 
-.delete:hover {
+.deleteUser, .deleteRole {
+	color: #f23535;
+}
+
+.deleteRole:hover, .deleteUser:hover, .updateUser:hover, .updateRole:hover
+	{
 	color: #F1F1F1;
+	cursor: pointer;
 }
