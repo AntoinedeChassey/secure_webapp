@@ -109,7 +109,8 @@ public class LoginServlet extends HttpServlet {
 					// Resetting logs
 					AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
 					AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 0);
-
+					attemptsLeft = 0;
+					
 					System.out.println("[INFO] - Saving user attributes to session...");
 					request.getSession().setAttribute("connectedUser", user);
 					System.out.println("ID en session: " + user.getId_user());
