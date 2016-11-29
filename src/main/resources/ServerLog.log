@@ -2,50 +2,22 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T22:56:48</date>
-  <millis>1480391808439</millis>
-  <sequence>120</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>117</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T22:58:28</date>
-  <millis>1480391908503</millis>
-  <sequence>125</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>120</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T22:59:49</date>
-  <millis>1480391989004</millis>
+  <date>2016-11-28T23:45:54</date>
+  <millis>1480394754404</millis>
   <sequence>130</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>117</thread>
+  <thread>126</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:03:27</date>
-  <millis>1480392207192</millis>
+  <date>2016-11-28T23:46:15</date>
+  <millis>1480394775318</millis>
   <sequence>135</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
@@ -58,8 +30,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:04:34</date>
-  <millis>1480392274612</millis>
+  <date>2016-11-28T23:46:45</date>
+  <millis>1480394805694</millis>
   <sequence>140</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
@@ -72,37 +44,23 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:05:34</date>
-  <millis>1480392334791</millis>
+  <date>2016-11-28T23:48:00</date>
+  <millis>1480394880698</millis>
   <sequence>145</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>139</thread>
+  <thread>149</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:05:58</date>
-  <millis>1480392358102</millis>
+  <date>2016-11-28T23:52:31</date>
+  <millis>1480395151467</millis>
   <sequence>150</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>158</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T23:06:34</date>
-  <millis>1480392394994</millis>
-  <sequence>155</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
@@ -114,55 +72,13 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:08:10</date>
-  <millis>1480392490368</millis>
-  <sequence>160</sequence>
+  <date>2016-11-29T00:30:12</date>
+  <millis>1480397412717</millis>
+  <sequence>170</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>153</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T23:09:59</date>
-  <millis>1480392599544</millis>
-  <sequence>30</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>32</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T23:10:56</date>
-  <millis>1480392656719</millis>
-  <sequence>35</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>33</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
-</record>
-<?xml version="1.0" encoding="windows-1252" standalone="no"?>
-<!DOCTYPE log SYSTEM "logger.dtd">
-<log>
-<record>
-  <date>2016-11-28T23:14:04</date>
-  <millis>1480392844769</millis>
-  <sequence>40</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
-  <level>INFO</level>
-  <class>ets.secure_webapp.utils.MyLogger</class>
-  <method>log</method>
-  <thread>47</thread>
+  <thread>191</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>

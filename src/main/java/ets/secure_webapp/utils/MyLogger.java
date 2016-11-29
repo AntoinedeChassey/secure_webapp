@@ -24,7 +24,7 @@ public class MyLogger {
 
 			String osAppropriatePath = IS_WINDOWS
 					? filePath = "C:/Users/ANTOINE/Git/secure_webapp/src/main/resources/ServerLog.log" : filePath;
-			FileHandler fh = new FileHandler(osAppropriatePath, 8092, 1, true);
+			FileHandler fh = new FileHandler(osAppropriatePath, 16184, 1, true);
 			this.logger.addHandler(fh);
 			this.logger.setLevel(Level.ALL);
 

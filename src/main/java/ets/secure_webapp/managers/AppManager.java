@@ -21,7 +21,7 @@ public class AppManager {
 	}
 
 	private UserDao userDao = new UserDaoImpl();
-	private RoleDao	roleDao = new RoleDaoImpl();
+	private RoleDao roleDao = new RoleDaoImpl();
 
 	private AppManager() {
 	}
@@ -36,12 +36,16 @@ public class AppManager {
 		return userDao.getUserByUsername(username);
 	}
 
-	public User setUserPassword(Integer id_user, String newPassword) {
+	public boolean setUserPassword(Integer id_user, String newPassword) {
 		return userDao.setUserPassword(id_user, newPassword);
 	}
-	
+
+	public boolean addUser(User newUser) {
+		return userDao.addUser(newUser);
+	}
+
 	// Role methods
-	
+
 	public List<Role> getRoles() {
 		return roleDao.getRoles();
 	}

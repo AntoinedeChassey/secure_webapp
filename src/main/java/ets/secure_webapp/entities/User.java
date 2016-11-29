@@ -1,6 +1,6 @@
 package ets.secure_webapp.entities;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class User {
 
@@ -12,10 +12,10 @@ public class User {
 	private String name;
 	private String avatar;
 	private String country;
-	private Date date;
+	private Timestamp date;
 
 	public User(Integer id_user, Role role, String username, String password, String surname, String name,
-			String avatar, String country, Date date) {
+			String avatar, String country, Timestamp date) {
 		super();
 		this.id_user = id_user;
 		this.role = role;
@@ -101,11 +101,11 @@ public class User {
 		this.country = country;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 }

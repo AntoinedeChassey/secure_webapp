@@ -58,10 +58,6 @@
 					<button type="button" class="btn btn-primary" onclick="home()">
 						<i class="fa fa-home fa-fw"></i> Home
 					</button>
-					<button type="button" class="btn btn-success"
-						onclick="setPassword()">
-						<i class="fa fa-key fa-fw"></i> Set password
-					</button>
 					<button type="button" class="btn btn-warning"
 						onclick="administration()">
 						<i class="fa fa-gear fa-fw"></i> Administration
@@ -77,46 +73,28 @@
 			<div class="col-md-12">
 				<h1>Welcome</h1>
 				<div class="col-md-4">
-					<div class="col-md-offset-4">
-						<div class="list-group">
-							<a href="#" class="list-group-item active">${user.username} <img
-								id="avatar" class="img-responsive" src="${user.avatar}"
-								alt="Profile"></a> <a href="#" class="list-group-item">${user.surname}</a>
-							<a href="#" class="list-group-item">${user.name}</a><a href="#"
-								class="list-group-item">${user.country}</a> <a href="#"
-								class="list-group-item">${user.date}</a>
-						</div>
+					<div class="list-group">
+						<a href="#" class="list-group-item active">${user.username} <img
+							id="avatar" class="pull-right img-responsive"
+							src="${user.avatar}" alt="Profile"></a> <a href="#"
+							class="list-group-item">${user.surname}</a> <a href="#"
+							class="list-group-item">${user.name}</a><a href="#"
+							class="list-group-item">${user.country}</a> <a href="#"
+							class="list-group-item">${user.date}</a> <a href="#"
+							class="list-group-item"><button type="button"
+								class="btn btn-success center-block" onclick="setPassword()">
+								<i class="fa fa-key fa-fw"></i> Set password
+							</button></a>
 					</div>
 				</div>
-			</div>
-			<!-- /.col-md-12 -->
-
-			<div class="col-md-12">
-				<div class="col-md-offset-4">
-
-					<div class="form-group">
-						<label for="inputPassword" class="control-label">Password</label>
-						<div class="form-inline row">
-							<div class="form-group col-sm-6">
-								<input type="password" data-minlength="6" class="form-control"
-									id="inputPassword" placeholder="Password" required>
-								<div class="help-block">Minimum of 6 characters</div>
-							</div>
-							<div class="form-group col-sm-6">
-								<input type="password" class="form-control"
-									id="inputPasswordConfirm" data-match="#inputPassword"
-									data-match-error="Whoops, these don't match"
-									placeholder="Confirm" required>
-								<div class="help-block with-errors"></div>
-							</div>
-						</div>
-					</div>
-
-					<form id="formPassword" class="form-horizontal">
+				<div class="col-md-8">
+					<form id="formPassword" class="form-horizontal" action="POST">
 						<div class="form-group">
 							<label class="col-xs-3 control-label">Password</label>
 							<div class="col-xs-5">
-								<input type="password" class="form-control" name="password" />
+								<input type="password" class="form-control" name="password"
+									required>
+								<div class="help-block">Minimum of 8 characters</div>
 							</div>
 						</div>
 
@@ -124,14 +102,20 @@
 							<label class="col-xs-3 control-label">Retype password</label>
 							<div class="col-xs-5">
 								<input type="password" class="form-control"
-									name="confirmPassword" />
+									name="confirmPassword" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label"></label>
+							<div class="col-xs-5">
+								<button type="submit" class="btn btn-success center-block"
+									onclick="validatePassword()">Submit</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 			<!-- /.col-md-12 -->
-
 
 		</div>
 		<!-- /.row -->

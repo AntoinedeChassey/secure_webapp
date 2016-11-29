@@ -11,7 +11,7 @@ function logout() {
 }
 
 function setPassword() {
-	$('#formPassword').show();
+	$('#formPassword').toggle();
 }
 $(document)
 		.ready(

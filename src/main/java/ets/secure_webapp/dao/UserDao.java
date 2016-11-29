@@ -10,5 +10,7 @@ public interface UserDao {
 
 	public User getUserByUsername(String username);
 	
-	public User setUserPassword(Integer id_user, String newPassword);
+	public boolean setUserPassword(Integer id_user, String newPassword);
+	
+	public boolean addUser(User newUser);
 }
