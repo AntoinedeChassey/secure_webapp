@@ -105,24 +105,33 @@ public class UserDaoImpl implements UserDao {
 				histories.add(history);
 			}
 
-			if (userCanChangePassword(histories, newPassword)) {
-				try {
-					PreparedStatement stmt2 = connection.prepareStatement("UPDATE user SET password=? WHERE id_user=?");
+			try {
+				if (userCanChangePassword(histories, newPassword)) {
 					try {
-						stmt2.setString(1, PasswordEncryption.generatePassword(newPassword));
-					} catch (NoSuchAlgorithmException e) {
-						e.printStackTrace();
-					} catch (InvalidKeySpecException e) {
+						PreparedStatement stmt2 = connection
+								.prepareStatement("UPDATE user SET password=? WHERE id_user=?");
+						try {
+							stmt2.setString(1, PasswordEncryption.generatePassword(newPassword));
+						} catch (NoSuchAlgorithmException e) {
+							e.printStackTrace();
+						} catch (InvalidKeySpecException e) {
+							e.printStackTrace();
+						}
+						stmt2.setInt(2, id_user);
+						stmt2.executeUpdate();
+						connection.close();
+						return true;
+					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-					stmt2.setInt(2, id_user);
-					stmt2.executeUpdate();
-					connection.close();
-					return true;
-				} catch (SQLException e) {
-					e.printStackTrace();
+					return false;
 				}
-				return false;
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidKeySpecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,9 +140,10 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 
-	private boolean userCanChangePassword(List<History> histories, String newPassword) {
+	private boolean userCanChangePassword(List<History> histories, String newPassword)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		for (History history : histories) {
-			if (history.getPassword() == newPassword)
+			if (PasswordEncryption.validatePassword(newPassword, history.getPassword()))
 				return false;
 		}
 		return true;

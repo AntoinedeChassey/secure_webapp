@@ -89,6 +89,7 @@ public class PasswordEncryption {
 			System.out.println(String.format("usercercle@test.com=%s", PasswordEncryption.generatePassword("user")));
 			System.out.println(String.format("usercarre@test.com=%s", PasswordEncryption.generatePassword("user")));
 			System.out.println(String.format("admin@test.com=%s", PasswordEncryption.generatePassword("admin")));
+
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
