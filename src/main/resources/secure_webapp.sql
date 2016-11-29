@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 29 Novembre 2016 à 10:49
+-- Généré le :  Mar 29 Novembre 2016 à 18:49
 -- Version du serveur :  5.6.15-log
 -- Version de PHP :  5.5.8
 
@@ -23,25 +23,49 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `history`
+-- Structure de la table `log_connection`
 --
 
-CREATE TABLE IF NOT EXISTS `history` (
-  `id_history` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `log_connection` (
+  `id_log_connection` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `phase` int(11) NOT NULL DEFAULT '0',
+  `attempts` int(11) DEFAULT '0',
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_log_connection`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Contenu de la table `log_connection`
+--
+
+INSERT INTO `log_connection` (`id_log_connection`, `id_user`, `phase`, `attempts`, `date`) VALUES
+(6, 19, 0, 0, '2016-11-29 17:48:39'),
+(5, 18, 0, 0, '2016-11-29 17:48:38'),
+(4, 17, 0, 0, '2016-11-29 17:48:38');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `log_password`
+--
+
+CREATE TABLE IF NOT EXISTS `log_password` (
+  `id_log_password` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `password` varchar(500) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_history`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  PRIMARY KEY (`id_log_password`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
--- Contenu de la table `history`
+-- Contenu de la table `log_password`
 --
 
-INSERT INTO `history` (`id_history`, `id_user`, `password`, `date`) VALUES
-(3, 8, 'a02ec26f56bcc83fa1a0d64a30c59405bde1b12a0555ce620435f2814daa041e9f95347f8caf1f13674271fa951118510f2c6e24754c9f839864dbef420c7e93:04fd23f7c225eaefb0752d3980c0e9f70b19fdc38f78f56c6669f50fd35086b5ef37d277a6fdd3484ba140b1335a8f03cbf3cf2adb9c9b29fe607135f54ac666', '2016-11-29 08:36:48'),
-(4, 9, 'a49ccd200ad18ee88a837b07109a0107eeb260829927ec1eb25c3850a40d036965af06021a55b88b99ed926fc81858cd7210c20a64cfca4325b01c997c9c0c69:1c3252752007dc751d49c9c3441fdd681fdb384f6ea93b40a74f909fb355e055c4c0aaee88bbf6d23c961ec6856473b25bbc29c6f57fc2e96b4effd42dc53b58', '2016-11-29 08:36:49'),
-(5, 10, 'db446bae2e352864badf1315c2bcec18d818df2823c709a0cf38328c96fd3e8171182df725f1650a9ce155f00cb2667ec148c75fa5444fc6fd8e0632558928d6:b1fe68343462c3c963943ffcdd457e31f6e1a215e7bd786e2c393ccdf422839592597f9fec33d62e2fbb9301b4c897a6c076fe46098285cdc89120b7487428fe', '2016-11-29 08:36:49');
+INSERT INTO `log_password` (`id_log_password`, `id_user`, `password`, `date`) VALUES
+(19, 19, '96a5802130e87f2c0dad94350285d39c6a14214587483ed330c7f1e4b931505ed61734ad0e832d18fd82a40c5ce7f849d1feb37a52219cbb65afc0d129e36e29:2620b1f48832d83530e9f525650f07af07d0c2d9bbaee0e3f7154099ffa532071dcc3d2d925f2b53ebf9c3d42fe0022cc9ea87ed9f3f1212f7c176965e3425b7', '2016-11-29 17:48:39'),
+(18, 18, '53d5bc18b30b88d0d0351f862ec56a08091b7fadadc2f8951581bae714c29712f026a69c4b153bd9dbb84f80057e9971bd5659e309f51abdcf09cc0a2e969f7f:f581cfc0b742d9dab5ea3f7bceeb8304adf5d3499574ea80b91c43f7763c49d188d8e94cc7fe21666a2903448f8237b232fe1b4f39272e4727757afaf2620613', '2016-11-29 17:48:38'),
+(17, 17, '9cbbbc39601f3acdf3e08991a1f1257da9e9dd8fba78e55d4d3b14850def630f3b4700c6f920eeaa90ab32f48dd09a7bb29eaf93c098265c56f06a4ba7e5d356:b119f73759829adc6b6beac843e821dd46468d62bd06a29f3b36eda10a8d55239648cd274b13d6e49bfcb7637e43765f12351d28be4f4554e32e2afcdad06751', '2016-11-29 17:48:38');
 
 -- --------------------------------------------------------
 
@@ -53,6 +77,8 @@ CREATE TABLE IF NOT EXISTS `role` (
   `id_role` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `maxInactiveInterval` int(11) NOT NULL,
+  `maxAttempts` int(11) NOT NULL DEFAULT '5',
+  `maxTimeForPhase1` bigint(20) NOT NULL,
   PRIMARY KEY (`id_role`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
@@ -60,10 +86,10 @@ CREATE TABLE IF NOT EXISTS `role` (
 -- Contenu de la table `role`
 --
 
-INSERT INTO `role` (`id_role`, `name`, `maxInactiveInterval`) VALUES
-(1, 'admin', 1200),
-(2, 'userCercle', 600),
-(3, 'userCarre', 600);
+INSERT INTO `role` (`id_role`, `name`, `maxInactiveInterval`, `maxAttempts`, `maxTimeForPhase1`) VALUES
+(1, 'admin', 1200, 5, 60000),
+(2, 'userCercle', 600, 5, 60000),
+(3, 'userCarre', 600, 5, 60000);
 
 -- --------------------------------------------------------
 
@@ -82,16 +108,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `country` varchar(128) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_user`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id_user`, `id_role`, `username`, `password`, `surname`, `name`, `avatar`, `country`, `date`) VALUES
-(10, 2, 'usercercle@test.com', 'db446bae2e352864badf1315c2bcec18d818df2823c709a0cf38328c96fd3e8171182df725f1650a9ce155f00cb2667ec148c75fa5444fc6fd8e0632558928d6:b1fe68343462c3c963943ffcdd457e31f6e1a215e7bd786e2c393ccdf422839592597f9fec33d62e2fbb9301b4c897a6c076fe46098285cdc89120b7487428fe', 'Cercle', 'Cercle', './img/users/profile.png', 'France', '2016-11-29 08:36:49'),
-(9, 3, 'usercarre@test.com', 'a49ccd200ad18ee88a837b07109a0107eeb260829927ec1eb25c3850a40d036965af06021a55b88b99ed926fc81858cd7210c20a64cfca4325b01c997c9c0c69:1c3252752007dc751d49c9c3441fdd681fdb384f6ea93b40a74f909fb355e055c4c0aaee88bbf6d23c961ec6856473b25bbc29c6f57fc2e96b4effd42dc53b58', 'Carre', 'User', './img/users/profile.png', 'Canada', '2016-11-29 08:36:49'),
-(8, 1, 'admin@test.com', 'a02ec26f56bcc83fa1a0d64a30c59405bde1b12a0555ce620435f2814daa041e9f95347f8caf1f13674271fa951118510f2c6e24754c9f839864dbef420c7e93:04fd23f7c225eaefb0752d3980c0e9f70b19fdc38f78f56c6669f50fd35086b5ef37d277a6fdd3484ba140b1335a8f03cbf3cf2adb9c9b29fe607135f54ac666', 'Best', 'Admin', './img/users/test.png', 'Canada', '2016-11-29 08:36:48');
+(19, 2, 'usercercle@test.com', '96a5802130e87f2c0dad94350285d39c6a14214587483ed330c7f1e4b931505ed61734ad0e832d18fd82a40c5ce7f849d1feb37a52219cbb65afc0d129e36e29:2620b1f48832d83530e9f525650f07af07d0c2d9bbaee0e3f7154099ffa532071dcc3d2d925f2b53ebf9c3d42fe0022cc9ea87ed9f3f1212f7c176965e3425b7', 'Cercle', 'Cercle', './img/users/profile.png', 'France', '2016-11-29 17:48:39'),
+(17, 1, 'admin@test.com', '9cbbbc39601f3acdf3e08991a1f1257da9e9dd8fba78e55d4d3b14850def630f3b4700c6f920eeaa90ab32f48dd09a7bb29eaf93c098265c56f06a4ba7e5d356:b119f73759829adc6b6beac843e821dd46468d62bd06a29f3b36eda10a8d55239648cd274b13d6e49bfcb7637e43765f12351d28be4f4554e32e2afcdad06751', 'Best', 'Admin', './img/users/test.png', 'Canada', '2016-11-29 17:48:38'),
+(18, 3, 'usercarre@test.com', '53d5bc18b30b88d0d0351f862ec56a08091b7fadadc2f8951581bae714c29712f026a69c4b153bd9dbb84f80057e9971bd5659e309f51abdcf09cc0a2e969f7f:f581cfc0b742d9dab5ea3f7bceeb8304adf5d3499574ea80b91c43f7763c49d188d8e94cc7fe21666a2903448f8237b232fe1b4f39272e4727757afaf2620613', 'Carre', 'User', './img/users/profile.png', 'Canada', '2016-11-29 17:48:38');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -62,11 +62,11 @@
 							<fieldset>
 								<div class="form-group">
 									<input class="form-control" placeholder="Username"
-										name="username" type="email" autofocus>
+										name="username" type="email" autofocus required>
 								</div>
 								<div class="form-group">
 									<input class="form-control" placeholder="Password"
-										name="password" type="password">
+										name="password" type="password" required>
 								</div>
 								<div class="form-group">
 									<div class="checkbox checkbox-success">

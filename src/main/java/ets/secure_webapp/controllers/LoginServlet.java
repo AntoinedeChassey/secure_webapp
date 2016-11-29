@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ets.secure_webapp.entities.LogConnection;
 import ets.secure_webapp.entities.User;
 import ets.secure_webapp.managers.AppManager;
 import ets.secure_webapp.utils.MyLogger;
@@ -85,28 +86,80 @@ public class LoginServlet extends HttpServlet {
 		String usernameInput = request.getParameter("username");
 		String passwordInput = request.getParameter("password");
 
-		try {
-			if (authorizedUsers.containsKey(usernameInput)
-					&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
+		User user = AppManager.getInstance().getUserByUsername(usernameInput);
 
-				System.out.println("[INFO] - Saving user attributes to session...");
-				User user = AppManager.getInstance().getUserByUsername(usernameInput);
-				request.getSession().setAttribute("connectedUser", user);
-				System.out.println("ID en session: " + user.getId_user());
-				// Log
-				myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
-						+ " and PASSWORD: " + passwordInput);
-			} else {
-				System.err.println("[ERROR] - Could not authenticate !");
-				// Log
-				myLogger.log(Level.SEVERE, "Unsuccessful authentification with USERNAME: " + usernameInput
-						+ " and PASSWORD: " + passwordInput);
+		if (user != null) {
+			try {
+				// If the user entered the correct login association and if he
+				// has
+				// attempted less than 5 times
+				if (authorizedUsers.containsKey(usernameInput)
+						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))
+						&& userIsAllowedToConnect(user)) {
+
+					// Resetting logs
+					AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
+					AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 0);
+
+					System.out.println("[INFO] - Saving user attributes to session...");
+					request.getSession().setAttribute("connectedUser", user);
+					System.out.println("ID en session: " + user.getId_user());
+					// Log
+					myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
+							+ " and PASSWORD: " + passwordInput);
+				} else {
+					AppManager.getInstance().incrementLogConnection(user.getId_user());
+					System.err.println("[ERROR] - Could not authenticate !");
+					// Log
+					myLogger.log(Level.SEVERE, "Unsuccessful authentification with USERNAME: " + usernameInput
+							+ " and PASSWORD: " + passwordInput);
+				}
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (InvalidKeySpecException e) {
+				e.printStackTrace();
 			}
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
+		} else {
+			// Log
+			myLogger.log(Level.SEVERE, "User is not in DB: " + usernameInput);
 		}
 		this.doGet(request, response);
+	}
+
+	private boolean userIsAllowedToConnect(User user) {
+		LogConnection log = AppManager.getInstance().getConnectionLogByUserId(user.getId_user());
+		Integer maxAttempts = user.getRole().getMaxAttempts();
+		Long maxTimeForPhase1 = user.getRole().getMaxTimeforPhase1();
+
+		// If phase 1, maxAttempts reached, maxTime between attempts reached
+		if (log.getPhase() == 1 && (log.getAttempts() > maxAttempts)
+				&& (System.currentTimeMillis() - log.getDate().getTime()) > maxTimeForPhase1) {
+			// Setting to phase 2, blocked
+			AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 2);
+			log.setPhase(2);
+		}
+
+		if (log.getPhase() == 0 && (log.getAttempts() < maxAttempts)) {
+			System.out.println("log.getAttempts() < maxAttempts");
+			return true;
+		}
+		// Setting to phase 1 and reseting attempts because user is not phase 0
+		// and reached maxAttempts
+		AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
+		AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 1);
+		log.setPhase(1);
+
+		// If phase 1, maxAttempts not reached, maxTime between attempts reached
+		if (log.getPhase() == 1 && (System.currentTimeMillis() - log.getDate().getTime()) > maxTimeForPhase1) {
+			System.out.println("log.getAttempts() < maxAttempts");
+			return true;
+		}
+
+		// Phase 2 -> directly return false
+		else if (log.getPhase() == 2) {
+			System.out.println("log.getPhase() == 2");
+			return false;
+		}
+		return false;
 	}
 }

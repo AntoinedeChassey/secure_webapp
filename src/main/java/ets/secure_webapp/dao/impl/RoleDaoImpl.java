@@ -24,7 +24,8 @@ public class RoleDaoImpl implements RoleDao {
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM role");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Role role = new Role(rs.getInt("id_role"), rs.getString("name"), rs.getInt("maxInactiveInterval"));
+				Role role = new Role(rs.getInt("id_role"), rs.getString("name"), rs.getInt("maxInactiveInterval"),
+						rs.getInt("maxAttempts"), rs.getLong("maxTimeForPhase1"));
 				roles.add(role);
 			}
 			connection.close();
@@ -32,5 +33,24 @@ public class RoleDaoImpl implements RoleDao {
 			e.printStackTrace();
 		}
 		return roles;
+	}
+
+	@Override
+	public Role getRoleById(Integer id_role) {
+		Role role = null;
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM role WHERE id_role = ?");
+			stmt.setInt(1, id_role);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				role = new Role(rs.getInt("id_role"), rs.getString("name"), rs.getInt("maxInactiveInterval"),
+						rs.getInt("maxAttempts"), rs.getLong("maxTimeForPhase1"));
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return role;
 	}
 }

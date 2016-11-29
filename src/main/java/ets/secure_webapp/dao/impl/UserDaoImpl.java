@@ -13,9 +13,10 @@ import java.util.logging.Level;
 import com.mysql.jdbc.Statement;
 
 import ets.secure_webapp.dao.UserDao;
-import ets.secure_webapp.entities.History;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
+import ets.secure_webapp.managers.AppManager;
 import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
 
@@ -39,18 +40,8 @@ public class UserDaoImpl implements UserDao {
 						rs.getString("surname"), rs.getString("name"), rs.getString("avatar"), rs.getString("country"),
 						rs.getTimestamp("date"));
 				Integer id_role = rs.getInt("id_role");
-				try {
-					PreparedStatement stmtRole = connection.prepareStatement("SELECT * FROM role WHERE id_role=?");
-					stmtRole.setInt(1, id_role);
-					ResultSet rsRole = stmtRole.executeQuery();
-					if (rsRole.next()) {
-						Role role = new Role(rsRole.getInt("id_role"), rsRole.getString("name"),
-								rsRole.getInt("maxInactiveInterval"));
-						user.setRole(role);
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				Role role = AppManager.getInstance().getRoleById(id_role);
+				user.setRole(role);
 				users.add(user);
 			}
 			connection.close();
@@ -75,22 +66,28 @@ public class UserDaoImpl implements UserDao {
 						rs.getString("surname"), rs.getString("name"), rs.getString("avatar"), rs.getString("country"),
 						rs.getTimestamp("date"));
 				Integer id_role = rs.getInt("id_role");
-				try {
-					PreparedStatement stmtRole = connection.prepareStatement("SELECT * FROM role WHERE id_role=?");
-					stmtRole.setInt(1, id_role);
-					ResultSet rsRole = stmtRole.executeQuery();
-					if (rsRole.next()) {
-						Role role = new Role(rsRole.getInt("id_role"), rsRole.getString("name"),
-								rsRole.getInt("maxInactiveInterval"));
-						user.setRole(role);
-						connection.close();
-						// Log
-						myLogger.log(Level.INFO, "getUserByUsername - " + user.getUsername());
-						return user;
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					PreparedStatement stmtRole = connection.prepareStatement("SELECT * FROM role WHERE id_role=?");
+//					stmtRole.setInt(1, id_role);
+//					ResultSet rsRole = stmtRole.executeQuery();
+//					if (rsRole.next()) {
+//						Role role = new Role(rsRole.getInt("id_role"), rsRole.getString("name"),
+//								rsRole.getInt("maxInactiveInterval"));
+//						user.setRole(role);
+//						connection.close();
+//						// Log
+//						myLogger.log(Level.INFO, "getUserByUsername - " + user.getUsername());
+//						return user;
+//					}
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+				Role role = AppManager.getInstance().getRoleById(id_role);
+				user.setRole(role);
+				connection.close();
+				// Log
+				myLogger.log(Level.INFO, "getUserByUsername - " + user.getUsername());
+				return user;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,21 +97,21 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean setUserPassword(Integer id_user, String newPassword) {
-		List<History> histories = new ArrayList<>();
+		List<LogPassword> logs = new ArrayList<>();
 		try {
 			Connection connection = getConnection();
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT * FROM history WHERE id_user=? ORDER BY date DESC LIMIT 10");
+					.prepareStatement("SELECT * FROM log_password WHERE id_user=? ORDER BY date DESC LIMIT 10");
 			stmt.setInt(1, id_user);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				History history = new History(rs.getInt("id_history"), rs.getInt("id_user"), rs.getString("password"),
-						rs.getTimestamp("date"));
-				histories.add(history);
+				LogPassword log = new LogPassword(rs.getInt("id_log_password"), rs.getInt("id_user"),
+						rs.getString("password"), rs.getTimestamp("date"));
+				logs.add(log);
 			}
 
 			try {
-				if (userCanChangePassword(histories, newPassword)) {
+				if (userCanChangePassword(logs, newPassword)) {
 					try {
 						PreparedStatement stmt2 = connection
 								.prepareStatement("UPDATE user SET password=? WHERE id_user=?");
@@ -130,11 +127,12 @@ public class UserDaoImpl implements UserDao {
 						stmt2.setInt(2, id_user);
 						stmt2.executeUpdate();
 						if (encryptedPassword != null)
-							insertHistory(connection, id_user, encryptedPassword);
-						connection.close();
-						// Log
-						myLogger.log(Level.INFO, "setUserPassword - id_user: " + id_user);
-						return true;
+							if (addLogPassword(id_user, encryptedPassword)) {
+								connection.close();
+								// Log
+								myLogger.log(Level.INFO, "setUserPassword - id_user: " + id_user);
+								return true;
+							}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -152,15 +150,6 @@ public class UserDaoImpl implements UserDao {
 		}
 		System.err.println("User has to set a different password!");
 		return false;
-	}
-
-	private boolean userCanChangePassword(List<History> histories, String newPassword)
-			throws NoSuchAlgorithmException, InvalidKeySpecException {
-		for (History history : histories) {
-			if (PasswordEncryption.validatePassword(newPassword, history.getPassword()))
-				return false;
-		}
-		return true;
 	}
 
 	@Override
@@ -196,13 +185,16 @@ public class UserDaoImpl implements UserDao {
 					stmt2.setString(6, newUser.getAvatar());
 					stmt2.setString(7, newUser.getCountry());
 					stmt2.executeUpdate();
-
+					connection.close();
 					User createdUser = getUserByUsername(newUser.getUsername());
 
 					if (encryptedPassword != null)
-						insertHistory(connection, createdUser.getId_user(), encryptedPassword);
-					connection.close();
-					myLogger.log(Level.INFO, "addUser :" + createdUser.getUsername());
+						if (addLogPassword(createdUser.getId_user(), encryptedPassword)) {
+							if (initLogConnection(createdUser.getId_user())) {
+								myLogger.log(Level.INFO, "addUser :" + createdUser.getUsername());
+								return true;
+							}
+						}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -213,22 +205,49 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.err.println("User already exists !");
+		myLogger.log(Level.SEVERE, "addUser : could not create new user");
 		return false;
 	}
 
-	private boolean insertHistory(Connection connection, Integer id_user, String encryptedPassword) {
+	// Private methods
+
+	private boolean addLogPassword(Integer id_user, String encryptedPassword) {
 		try {
-			PreparedStatement stmt3 = connection.prepareStatement("INSERT INTO history(id_user, password) VALUES(?,?)",
-					Statement.RETURN_GENERATED_KEYS);
-			stmt3.setInt(1, id_user);
-			stmt3.setString(2, encryptedPassword);
-			stmt3.executeUpdate();
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement(
+					"INSERT INTO log_password(id_user, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, id_user);
+			stmt.setString(2, encryptedPassword);
+			stmt.executeUpdate();
 			connection.close();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private boolean initLogConnection(Integer id_user) {
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("INSERT INTO log_connection(id_user) VALUES(?)",
+					Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, id_user);
+			stmt.executeUpdate();
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	private boolean userCanChangePassword(List<LogPassword> logs, String newPassword)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
+		for (LogPassword log : logs) {
+			if (PasswordEncryption.validatePassword(newPassword, log.getPassword()))
+				return false;
+		}
+		return true;
 	}
 }

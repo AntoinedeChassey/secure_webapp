@@ -9,8 +9,8 @@ public interface UserDao {
 	public List<User> getUsers();
 
 	public User getUserByUsername(String username);
-	
+
 	public boolean setUserPassword(Integer id_user, String newPassword);
-	
+
 	public boolean addUser(User newUser);
 }
