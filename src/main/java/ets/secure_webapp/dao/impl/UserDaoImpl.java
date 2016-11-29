@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.mysql.jdbc.Statement;
 
@@ -15,9 +16,12 @@ import ets.secure_webapp.dao.UserDao;
 import ets.secure_webapp.entities.History;
 import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
+import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
 
 public class UserDaoImpl implements UserDao {
+
+	private MyLogger myLogger = new MyLogger(UserDaoImpl.class.getName());
 
 	private Connection getConnection() throws SQLException {
 		return DataSourceProvider.getInstance().getDataSource().getConnection();
@@ -53,6 +57,8 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		// Log
+		myLogger.log(Level.INFO, "getUsers");
 		return users;
 	}
 
@@ -77,13 +83,15 @@ public class UserDaoImpl implements UserDao {
 						Role role = new Role(rsRole.getInt("id_role"), rsRole.getString("name"),
 								rsRole.getInt("maxInactiveInterval"));
 						user.setRole(role);
+						connection.close();
+						// Log
+						myLogger.log(Level.INFO, "getUserByUsername - " + user.getUsername());
+						return user;
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				return user;
 			}
-			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -120,6 +128,8 @@ public class UserDaoImpl implements UserDao {
 						stmt2.setInt(2, id_user);
 						stmt2.executeUpdate();
 						connection.close();
+						// Log
+						myLogger.log(Level.INFO, "setUserPassword - id_user: " + id_user);
 						return true;
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -160,28 +170,45 @@ public class UserDaoImpl implements UserDao {
 			if (!rs.next()) {
 				try {
 					PreparedStatement stmt2 = connection.prepareStatement(
-							"INSERT INTO user(id_role, username, password, surname, name, avatar, country, date) VALUES(?,?,?,?,?,?,?,?)",
+							"INSERT INTO user(id_role, username, password, surname, name, avatar, country) VALUES(?,?,?,?,?,?,?)",
 							Statement.RETURN_GENERATED_KEYS);
 					// Setting id_role to 2
 					stmt2.setInt(1, 2);
 					stmt2.setString(2, newUser.getUsername());
+					String encryptedPassword = null;
 					try {
-						stmt2.setString(3, PasswordEncryption.generatePassword(newUser.getPassword()));
-					} catch (NoSuchAlgorithmException e) {
+						encryptedPassword = PasswordEncryption.generatePassword(newUser.getPassword());
+						stmt2.setString(3, encryptedPassword);
+					} catch (NoSuchAlgorithmException e1) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InvalidKeySpecException e) {
+						e1.printStackTrace();
+					} catch (InvalidKeySpecException e1) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						e1.printStackTrace();
 					}
+
 					stmt2.setString(4, newUser.getSurname());
 					stmt2.setString(5, newUser.getName());
 					stmt2.setString(6, newUser.getAvatar());
 					stmt2.setString(7, newUser.getCountry());
-					stmt2.setTimestamp(8, newUser.getDate());
 					stmt2.executeUpdate();
-					connection.close();
-					return true;
+
+					User createdUser = getUserByUsername(newUser.getUsername());
+
+					try {
+						PreparedStatement stmt3 = connection.prepareStatement(
+								"INSERT INTO history(id_user, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+						stmt3.setInt(1, createdUser.getId_user());
+						if (encryptedPassword != null)
+							stmt3.setString(2, encryptedPassword);
+						stmt3.executeUpdate();
+						connection.close();
+						// Log
+						myLogger.log(Level.INFO, "addUser - " + createdUser.getUsername());
+						return true;
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -189,7 +216,6 @@ public class UserDaoImpl implements UserDao {
 				System.err.println("User already exists !");
 				return false;
 			}
-			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

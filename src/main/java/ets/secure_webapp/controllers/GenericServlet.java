@@ -7,32 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ets.secure_webapp.entities.User;
+
 public abstract class GenericServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -3237151023361632888L;
 
+	/**
+	 * This method is used to get the connected user and use it client side.
+	 * This Servlet extends HttpServlet so any page can heritate from it.
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// User user = (User)
-		// request.getSession().getAttribute("connectedUser");
-		// System.out.println(user);
-		// if (user == null || "".equals(user)) {
-		// RequestDispatcher view =
-		// request.getRequestDispatcher("/WEB-INF/login.jsp");
-		// view.forward(request, response);
-		// }
-		// else {
-		// System.out.println("coucou?");
-		// }
+		User connectedUser = (User) request.getSession().getAttribute("connectedUser");
+		request.setAttribute("user", connectedUser);
 
-		// } else {
-		// // Get connected id_user
-		// Integer id_user = (Integer)
-		// request.getSession().getAttribute("id_user");
-		//
-		// request.setAttribute("id_user", id_user);
-		// }
+		// Setting admin attribute for DOM
+		if (connectedUser.isAdmin())
+			request.setAttribute("admin", true);
 	}
 }

@@ -21,8 +21,8 @@
 	rel="stylesheet">
 <!-- Checkbox -->
 <link href="plugins/css/awesome-bootstrap-checkbox.css" rel="stylesheet">
-<!-- jGrowl -->
-<link href="plugins/css/jquery.jgrowl.min.css" rel="stylesheet">
+<!-- Toastr -->
+<link href="plugins/css/toastr.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/app.css" rel="stylesheet">
@@ -58,10 +58,12 @@
 					<button type="button" class="btn btn-primary" onclick="home()">
 						<i class="fa fa-home fa-fw"></i> Home
 					</button>
-					<button type="button" class="btn btn-warning"
-						onclick="administration()">
-						<i class="fa fa-gear fa-fw"></i> Administration
-					</button>
+					<c:if test="${admin == true}">
+						<button type="button" class="btn btn-warning"
+							onclick="administration()">
+							<i class="fa fa-gear fa-fw"></i> Administration
+						</button>
+					</c:if>
 					<button type="button" class="btn btn-danger" onclick="logout()">
 						<i class="fa fa-sign-out fa-fw"></i> Logout
 					</button>
@@ -74,8 +76,8 @@
 				<h1>Welcome</h1>
 				<div class="col-md-4">
 					<div class="list-group">
-						<a href="#" class="list-group-item active">${user.username} <img
-							id="avatar" class="pull-right img-responsive"
+						<a href="#" class="list-group-item active"><b>${user.username}</b>
+							<img id="avatar" class="pull-right img-responsive"
 							src="${user.avatar}" alt="Profile"></a> <a href="#"
 							class="list-group-item">${user.surname}</a> <a href="#"
 							class="list-group-item">${user.name}</a><a href="#"
@@ -88,11 +90,11 @@
 					</div>
 				</div>
 				<div class="col-md-8">
-					<form id="formPassword" class="form-horizontal" action="POST">
+					<form id="formPassword" class="form-horizontal" method="POST">
 						<div class="form-group">
 							<label class="col-xs-3 control-label">Password</label>
 							<div class="col-xs-5">
-								<input type="password" class="form-control" name="password"
+								<input type="password" class="form-control" name="newPassword"
 									required>
 								<div class="help-block">Minimum of 8 characters</div>
 							</div>
@@ -102,13 +104,13 @@
 							<label class="col-xs-3 control-label">Retype password</label>
 							<div class="col-xs-5">
 								<input type="password" class="form-control"
-									name="confirmPassword" required>
+									name="confirmNewPassword" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label"></label>
 							<div class="col-xs-5">
-								<button type="submit" class="btn btn-success center-block"
+								<button type="button" class="btn btn-success center-block"
 									onclick="validatePassword()">Submit</button>
 							</div>
 						</div>
@@ -138,10 +140,10 @@
 	<script src="plugins/js/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="plugins/js/bootstrap.min.js"></script>
-	<!-- jGrowl -->
-	<script src="plugins/js/jquery.jgrowl.min.js"></script>
 	<!-- Bootbox JS -->
 	<script src="plugins/js/bootbox.min.js"></script>
+	<!-- Toastr JS -->
+	<script src="plugins/js/toastr.min.js"></script>
 
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>

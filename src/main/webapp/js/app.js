@@ -10,33 +10,36 @@ function logout() {
 	window.location.href = "logout";
 }
 
+var isShown = false;
 function setPassword() {
-	$('#formPassword').toggle();
+	if (isShown) {
+		$('#formPassword').hide();
+		isShown = false;
+	} else {
+		promptForPassword();
+		$('#formPassword').show();
+		isShown = true;
+	}
 }
-$(document)
-		.ready(
-				function() {
-					$('#identicalForm')
-							.formValidation(
-									{
-										framework : 'bootstrap',
-										icon : {
-											valid : 'glyphicon glyphicon-ok',
-											invalid : 'glyphicon glyphicon-remove',
-											validating : 'glyphicon glyphicon-refresh'
-										},
-										fields : {
-											confirmPassword : {
-												validators : {
-													identical : {
-														field : 'password',
-														message : 'The password and its confirm are not the same'
-													}
-												}
-											}
-										}
-									});
-				});
+
+function promptForPassword(){
+	
+}
+
+function validatePassword() {
+	var newPassword = $('input[name=newPassword]').val();
+	var confirmNewPassword = $('input[name=confirmNewPassword]').val();
+	if (newPassword != confirmNewPassword) {
+		toastr.error("The passwords must match!");
+	} else {
+		console.log("POST")
+		toastr.options.onHidden = function() {
+			$('#formPassword').submit();
+		}
+		toastr.options.timeOut = 1000;
+		toastr.success("New password has been updated!");
+	}
+}
 
 $('.updateUser')
 		.click(

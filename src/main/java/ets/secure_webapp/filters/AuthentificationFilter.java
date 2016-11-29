@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import ets.secure_webapp.entities.User;
 
-//@WebFilter({ "/welcome/*", "/user", "/user/*" })
 @WebFilter({ "/home" })
 
 public class AuthentificationFilter implements Filter {

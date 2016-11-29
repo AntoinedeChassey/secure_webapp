@@ -20,8 +20,6 @@
 	rel="stylesheet">
 <!-- Checkbox -->
 <link href="plugins/css/awesome-bootstrap-checkbox.css" rel="stylesheet">
-<!-- jGrowl -->
-<link href="plugins/css/jquery.jgrowl.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/app.css" rel="stylesheet">
@@ -115,8 +113,6 @@
 	<script src="plugins/js/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="plugins/js/bootstrap.min.js"></script>
-	<!-- jGrowl -->
-	<script src="plugins/js/jquery.jgrowl.min.js"></script>
 
 	<!-- Custom JS -->
 	<!-- 	<script src="js/app.js"></script>

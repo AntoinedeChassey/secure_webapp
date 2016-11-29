@@ -2,97 +2,433 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:45:54</date>
-  <millis>1480394754404</millis>
-  <sequence>130</sequence>
+  <date>2016-11-29T03:29:18</date>
+  <millis>1480408158652</millis>
+  <sequence>75</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>72</thread>
+  <message>getUserByUsername - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:29:18</date>
+  <millis>1480408158658</millis>
+  <sequence>76</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>126</thread>
+  <thread>72</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:46:15</date>
-  <millis>1480394775318</millis>
-  <sequence>135</sequence>
+  <date>2016-11-29T03:29:18</date>
+  <millis>1480408158669</millis>
+  <sequence>77</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>72</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:31:36</date>
+  <millis>1480408296288</millis>
+  <sequence>78</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>76</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:32:14</date>
+  <millis>1480408334969</millis>
+  <sequence>79</sequence>
+  <logger>ets.secure_webapp.controllers.HomeServlet</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>77</thread>
+  <message>User [admin@test.com] password could not be modified to adminadmin</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:35:35</date>
+  <millis>1480408535516</millis>
+  <sequence>90</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>71</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:35:35</date>
+  <millis>1480408535531</millis>
+  <sequence>91</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>71</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:35:45</date>
+  <millis>1480408545566</millis>
+  <sequence>92</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>81</thread>
+  <message>getUserByUsername - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:35:45</date>
+  <millis>1480408545573</millis>
+  <sequence>93</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>140</thread>
+  <thread>81</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:46:45</date>
-  <millis>1480394805694</millis>
-  <sequence>140</sequence>
+  <date>2016-11-29T03:35:45</date>
+  <millis>1480408545587</millis>
+  <sequence>94</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>81</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:48</date>
+  <millis>1480408608869</millis>
+  <sequence>108</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:48</date>
+  <millis>1480408608969</millis>
+  <sequence>109</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>getUserByUsername - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:48</date>
+  <millis>1480408608975</millis>
+  <sequence>110</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>addUser - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:49</date>
+  <millis>1480408609068</millis>
+  <sequence>111</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>getUserByUsername - usercarre@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:49</date>
+  <millis>1480408609085</millis>
+  <sequence>112</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>addUser - usercarre@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:49</date>
+  <millis>1480408609177</millis>
+  <sequence>113</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>getUserByUsername - usercercle@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:49</date>
+  <millis>1480408609183</millis>
+  <sequence>114</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>addUser - usercercle@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:36:49</date>
+  <millis>1480408609194</millis>
+  <sequence>115</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>74</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:37:12</date>
+  <millis>1480408632061</millis>
+  <sequence>116</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>69</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:38:52</date>
+  <millis>1480408732654</millis>
+  <sequence>30</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>29</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:38:52</date>
+  <millis>1480408732865</millis>
+  <sequence>31</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>29</thread>
+  <message>getUserByUsername - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:38:52</date>
+  <millis>1480408732877</millis>
+  <sequence>32</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>144</thread>
+  <thread>29</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:48:00</date>
-  <millis>1480394880698</millis>
-  <sequence>145</sequence>
+  <date>2016-11-29T03:38:52</date>
+  <millis>1480408732890</millis>
+  <sequence>33</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>29</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:39:30</date>
+  <millis>1480408770371</millis>
+  <sequence>34</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>32</thread>
+  <message>getUsers</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:39:34</date>
+  <millis>1480408774433</millis>
+  <sequence>35</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>33</thread>
+  <message>getUserByUsername - admin@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:39:34</date>
+  <millis>1480408774439</millis>
+  <sequence>36</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>149</thread>
+  <thread>33</thread>
   <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-28T23:52:31</date>
-  <millis>1480395151467</millis>
-  <sequence>150</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
+  <date>2016-11-29T03:39:34</date>
+  <millis>1480408774452</millis>
+  <sequence>37</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>161</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
+  <thread>33</thread>
+  <message>getUsers</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-29T00:30:12</date>
-  <millis>1480397412717</millis>
-  <sequence>170</sequence>
-  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
+  <date>2016-11-29T03:40:20</date>
+  <millis>1480408820484</millis>
+  <sequence>38</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>191</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
+  <thread>34</thread>
+  <message>getUsers</message>
 </record>
 <?xml version="1.0" encoding="windows-1252" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2016-11-29T00:32:32</date>
-  <millis>1480397552338</millis>
-  <sequence>175</sequence>
+  <date>2016-11-29T03:40:25</date>
+  <millis>1480408825335</millis>
+  <sequence>39</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>32</thread>
+  <message>getUserByUsername - usercarre@test.com</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:40:25</date>
+  <millis>1480408825341</millis>
+  <sequence>40</sequence>
   <logger>ets.secure_webapp.controllers.LoginServlet</logger>
   <level>INFO</level>
   <class>ets.secure_webapp.utils.MyLogger</class>
   <method>log</method>
-  <thread>200</thread>
-  <message>Successful authentification with USERNAME: admin@test.com and PASSWORD: admin</message>
+  <thread>32</thread>
+  <message>Successful authentification with USERNAME: usercarre@test.com and PASSWORD: user</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T03:40:25</date>
+  <millis>1480408825354</millis>
+  <sequence>41</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>32</thread>
+  <message>getUsers</message>
 </record>

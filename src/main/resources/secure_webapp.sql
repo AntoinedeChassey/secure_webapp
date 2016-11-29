@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mar 29 Novembre 2016 à 06:30
+-- Généré le :  Mar 29 Novembre 2016 à 09:39
 -- Version du serveur :  5.6.15-log
 -- Version de PHP :  5.5.8
 
@@ -32,7 +32,16 @@ CREATE TABLE IF NOT EXISTS `history` (
   `password` varchar(500) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_history`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `history`
+--
+
+INSERT INTO `history` (`id_history`, `id_user`, `password`, `date`) VALUES
+(3, 8, 'a02ec26f56bcc83fa1a0d64a30c59405bde1b12a0555ce620435f2814daa041e9f95347f8caf1f13674271fa951118510f2c6e24754c9f839864dbef420c7e93:04fd23f7c225eaefb0752d3980c0e9f70b19fdc38f78f56c6669f50fd35086b5ef37d277a6fdd3484ba140b1335a8f03cbf3cf2adb9c9b29fe607135f54ac666', '2016-11-29 08:36:48'),
+(4, 9, 'a49ccd200ad18ee88a837b07109a0107eeb260829927ec1eb25c3850a40d036965af06021a55b88b99ed926fc81858cd7210c20a64cfca4325b01c997c9c0c69:1c3252752007dc751d49c9c3441fdd681fdb384f6ea93b40a74f909fb355e055c4c0aaee88bbf6d23c961ec6856473b25bbc29c6f57fc2e96b4effd42dc53b58', '2016-11-29 08:36:49'),
+(5, 10, 'db446bae2e352864badf1315c2bcec18d818df2823c709a0cf38328c96fd3e8171182df725f1650a9ce155f00cb2667ec148c75fa5444fc6fd8e0632558928d6:b1fe68343462c3c963943ffcdd457e31f6e1a215e7bd786e2c393ccdf422839592597f9fec33d62e2fbb9301b4c897a6c076fe46098285cdc89120b7487428fe', '2016-11-29 08:36:49');
 
 -- --------------------------------------------------------
 
@@ -69,20 +78,20 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(500) NOT NULL,
   `surname` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `avatar` varchar(128) NOT NULL DEFAULT './img/users/default.jpg',
+  `avatar` varchar(128) NOT NULL DEFAULT './img/users/profile.png',
   `country` varchar(128) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_user`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `user`
 --
 
 INSERT INTO `user` (`id_user`, `id_role`, `username`, `password`, `surname`, `name`, `avatar`, `country`, `date`) VALUES
-(1, 2, 'usercercle@test.com', 'ac120d6b66deef81f57880bf86ba5bf61a3da0f7b12092f773ce95791112f78363bc55bc2c896b31a2fe96beb013af877d89a2daf6e32c02bc98a6045ae14591:356820aaafe62a32a672549223837a5ac9089810975b41fe19dbc3fab1b5b405c97e4d172a160bc35e478d43f32baba814508ab06a894d5e96a10949d8177c7a', 'Cercle', 'User', './img/users/profile.png', 'Canada', '2017-03-16 19:50:04'),
-(3, 1, 'admin@test.com', '67718c4772e3179dc3ee034edd89714129c741ee890d87d6a7ed81e816b80c321304ad0bbf3ba6b20bf7f74e2ede9f1b55bc7b89fbfbf64b1b1b4f5ac286294a:3710dcbd24b3f50f13d69418e3f03a68ef896ad8ce6ba78e293e3601030a78711338510d46d8674c769912ec86ee50e2267c861bfa05bc681a86cb2a9df582fd', 'Best', 'Admin', './img/users/test.png', 'Canada', '2016-11-26 19:34:35'),
-(4, 3, 'usercarre@test.com', 'dd85d38e34464703e416fa6dc27c17c16f72875418ccc91a00b75eaca8f4bc9be676715813341d37c69d80e6dcbf36c0cabbe1d0e437566263e84eed9a395b9f:47b68fadb66239f8c1ba9fc86339694dca8f168455793fcd7859da2f9746504e4af2ef137cd9629616f44b18eb303aa4449907fdd7a323dc96b96702cd1aaf3a', 'Carre', 'User', './img/users/default.jpg', 'Canada', '2016-11-26 21:14:55');
+(10, 2, 'usercercle@test.com', 'db446bae2e352864badf1315c2bcec18d818df2823c709a0cf38328c96fd3e8171182df725f1650a9ce155f00cb2667ec148c75fa5444fc6fd8e0632558928d6:b1fe68343462c3c963943ffcdd457e31f6e1a215e7bd786e2c393ccdf422839592597f9fec33d62e2fbb9301b4c897a6c076fe46098285cdc89120b7487428fe', 'Cercle', 'Cercle', './img/users/profile.png', 'France', '2016-11-29 08:36:49'),
+(9, 3, 'usercarre@test.com', 'a49ccd200ad18ee88a837b07109a0107eeb260829927ec1eb25c3850a40d036965af06021a55b88b99ed926fc81858cd7210c20a64cfca4325b01c997c9c0c69:1c3252752007dc751d49c9c3441fdd681fdb384f6ea93b40a74f909fb355e055c4c0aaee88bbf6d23c961ec6856473b25bbc29c6f57fc2e96b4effd42dc53b58', 'Carre', 'User', './img/users/profile.png', 'Canada', '2016-11-29 08:36:49'),
+(8, 1, 'admin@test.com', 'a02ec26f56bcc83fa1a0d64a30c59405bde1b12a0555ce620435f2814daa041e9f95347f8caf1f13674271fa951118510f2c6e24754c9f839864dbef420c7e93:04fd23f7c225eaefb0752d3980c0e9f70b19fdc38f78f56c6669f50fd35086b5ef37d277a6fdd3484ba140b1335a8f03cbf3cf2adb9c9b29fe607135f54ac666', 'Best', 'Admin', './img/users/test.png', 'Canada', '2016-11-29 08:36:48');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

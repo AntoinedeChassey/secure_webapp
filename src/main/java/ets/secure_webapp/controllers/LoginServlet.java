@@ -39,6 +39,18 @@ public class LoginServlet extends HttpServlet {
 			authorizedUsers.put(users.get(i).getUsername(), users.get(i).getPassword());
 		}
 		System.out.println(authorizedUsers);
+
+		// Database init
+//		User admin = new User(null, null, "admin@test.com", "admin", "Best", "Admin", "./img/users/test.png", "Canada",
+//				null);
+//		User userCarre = new User(null, null, "usercarre@test.com", "user", "Carre", "User", "./img/users/profile.png",
+//				"Canada", null);
+//		User userCercle = new User(null, null, "usercercle@test.com", "user", "Cercle", "Cercle",
+//				"./img/users/profile.png", "France", null);
+//
+//		AppManager.getInstance().addUser(admin);
+//		AppManager.getInstance().addUser(userCarre);
+//		AppManager.getInstance().addUser(userCercle);
 	}
 
 	@Override
@@ -81,12 +93,12 @@ public class LoginServlet extends HttpServlet {
 				User user = AppManager.getInstance().getUserByUsername(usernameInput);
 				request.getSession().setAttribute("connectedUser", user);
 				System.out.println("ID en session: " + user.getId_user());
-				// log
+				// Log
 				myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
 						+ " and PASSWORD: " + passwordInput);
 			} else {
 				System.err.println("[ERROR] - Could not authenticate !");
-				// log
+				// Log
 				myLogger.log(Level.SEVERE, "Unsuccessful authentification with USERNAME: " + usernameInput
 						+ " and PASSWORD: " + passwordInput);
 			}
