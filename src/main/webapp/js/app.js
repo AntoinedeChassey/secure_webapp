@@ -25,13 +25,12 @@ function setPassword() {
 		isShown = false;
 	} else {
 		promptForPassword();
-		$('#formPassword').show();
 		isShown = true;
 	}
 }
 
-function promptForPassword(){
-	
+function promptForPassword() {
+	$('#formPassword').show();
 }
 
 function validatePassword() {
@@ -40,12 +39,27 @@ function validatePassword() {
 	if (newPassword != confirmNewPassword) {
 		toastr.error("The passwords must match!");
 	} else {
-		console.log("POST")
+		if (newPassword.length <= 7) {
+			console.log("too_short");
+			return toastr.error("The passwords are too short!");
+		} else if (newPassword.length >= 20) {
+			console.log("too_long");
+			return toastr.error("The passwords are too long!");
+		} else if (newPassword.search(/\d/) == -1) {
+			console.log("no_num");
+			return toastr.error("The passwords must contain a number!");
+		} else if (newPassword.search(/[a-zA-Z]/) == -1) {
+			console.log("no_letter");
+			return toastr.error("The passwords must contain a letter!");
+		} else if (newPassword.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+			console.log("bad_char");
+			return toastr.error("The passwords contain bad characters!");
+		}
 		toastr.options.onHidden = function() {
 			$('#formPassword').submit();
 		}
 		toastr.options.timeOut = 1000;
-		toastr.success("New password has been updated!");
+		return "ok";
 	}
 }
 

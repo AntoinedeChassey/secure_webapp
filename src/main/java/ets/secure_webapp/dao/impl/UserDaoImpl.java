@@ -107,7 +107,7 @@ public class UserDaoImpl implements UserDao {
 					.prepareStatement("SELECT * FROM history WHERE id_user=? ORDER BY date DESC LIMIT 10");
 			stmt.setInt(1, id_user);
 			ResultSet rs = stmt.executeQuery();
-			while (!rs.next()) {
+			while (rs.next()) {
 				History history = new History(rs.getInt("id_history"), rs.getInt("id_user"), rs.getString("password"),
 						rs.getTimestamp("date"));
 				histories.add(history);
@@ -118,8 +118,10 @@ public class UserDaoImpl implements UserDao {
 					try {
 						PreparedStatement stmt2 = connection
 								.prepareStatement("UPDATE user SET password=? WHERE id_user=?");
+						String encryptedPassword = null;
 						try {
-							stmt2.setString(1, PasswordEncryption.generatePassword(newPassword));
+							encryptedPassword = PasswordEncryption.generatePassword(newPassword);
+							stmt2.setString(1, encryptedPassword);
 						} catch (NoSuchAlgorithmException e) {
 							e.printStackTrace();
 						} catch (InvalidKeySpecException e) {
@@ -127,6 +129,8 @@ public class UserDaoImpl implements UserDao {
 						}
 						stmt2.setInt(2, id_user);
 						stmt2.executeUpdate();
+						if (encryptedPassword != null)
+							insertHistory(connection, id_user, encryptedPassword);
 						connection.close();
 						// Log
 						myLogger.log(Level.INFO, "setUserPassword - id_user: " + id_user);
@@ -195,20 +199,10 @@ public class UserDaoImpl implements UserDao {
 
 					User createdUser = getUserByUsername(newUser.getUsername());
 
-					try {
-						PreparedStatement stmt3 = connection.prepareStatement(
-								"INSERT INTO history(id_user, password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-						stmt3.setInt(1, createdUser.getId_user());
-						if (encryptedPassword != null)
-							stmt3.setString(2, encryptedPassword);
-						stmt3.executeUpdate();
-						connection.close();
-						// Log
-						myLogger.log(Level.INFO, "addUser - " + createdUser.getUsername());
-						return true;
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					if (encryptedPassword != null)
+						insertHistory(connection, createdUser.getId_user(), encryptedPassword);
+					connection.close();
+					myLogger.log(Level.INFO, "addUser :" + createdUser.getUsername());
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -220,6 +214,21 @@ public class UserDaoImpl implements UserDao {
 			e.printStackTrace();
 		}
 		System.err.println("User already exists !");
+		return false;
+	}
+
+	private boolean insertHistory(Connection connection, Integer id_user, String encryptedPassword) {
+		try {
+			PreparedStatement stmt3 = connection.prepareStatement("INSERT INTO history(id_user, password) VALUES(?,?)",
+					Statement.RETURN_GENERATED_KEYS);
+			stmt3.setInt(1, id_user);
+			stmt3.setString(2, encryptedPassword);
+			stmt3.executeUpdate();
+			connection.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 }

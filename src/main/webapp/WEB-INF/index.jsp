@@ -81,16 +81,18 @@
 							<label class="col-xs-3 control-label">Password</label>
 							<div class="col-xs-5">
 								<input type="password" class="form-control" name="newPassword"
-									required>
+									placeholder="Password" required>
 								<div class="help-block">Minimum of 8 characters</div>
 							</div>
 						</div>
 
 						<div class="form-group">
+
 							<label class="col-xs-3 control-label">Retype password</label>
 							<div class="col-xs-5">
 								<input type="password" class="form-control"
-									name="confirmNewPassword" required>
+									name="confirmNewPassword" placeholder="Re-enter Password"
+									required>
 							</div>
 						</div>
 						<div class="form-group">
@@ -101,7 +103,10 @@
 							</div>
 						</div>
 					</form>
+					<div id="messageCallback" class="hidden">${messageCallback}</div>
 				</div>
+
+
 			</div>
 			<!-- /.col-md-12 -->
 

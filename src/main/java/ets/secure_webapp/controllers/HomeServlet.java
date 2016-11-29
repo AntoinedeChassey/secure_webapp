@@ -34,16 +34,18 @@ public class HomeServlet extends GenericServlet {
 
 		String newPassword = request.getParameter("newPassword");
 		User connectedUser = (User) request.getSession().getAttribute("connectedUser");
-
-		if (newPassword.length() >= 8) {
+		
+		if (newPassword.length() >= 8 && newPassword.length() <= 20) {
 			if (AppManager.getInstance().setUserPassword(connectedUser.getId_user(), newPassword)) {
 				// Log
 				myLogger.log(Level.INFO,
 						"User [" + connectedUser.getUsername() + "] password successfully modified to " + newPassword);
+				request.setAttribute("messageCallback", "New password has been updated!!");
 			} else {
 				// Log
 				myLogger.log(Level.INFO,
 						"User [" + connectedUser.getUsername() + "] password could not be modified to " + newPassword);
+				request.setAttribute("messageCallback", "Please enter a different password from the ones you already used.");
 			}
 		}
 
