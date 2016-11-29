@@ -7,6 +7,17 @@ body {
 	margin: 20px;
 }
 
+#formPassword {
+	display: none;
+}
+
+#avatar {
+	max-width: 50px;
+	max-height: 50px;
+	display: inline-block;
+	margin-left: 30px;
+}
+
 .panel {
 	padding: 30px;
 	border: thin;

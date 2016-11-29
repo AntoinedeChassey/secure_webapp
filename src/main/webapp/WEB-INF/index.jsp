@@ -45,7 +45,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="page-header">
-					Welcome <small>Secure Web Application <i>GTI-619</i></small>
+					Home <small>Secure Web Application <i>GTI-619</i></small>
 				</h1>
 			</div>
 		</div>
@@ -55,8 +55,12 @@
 		<div class="row">
 			<div class="col-md-12" id="links">
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-primary" onclick="welcome()">
-						<i class="fa fa-home fa-fw"></i> Welcome
+					<button type="button" class="btn btn-primary" onclick="home()">
+						<i class="fa fa-home fa-fw"></i> Home
+					</button>
+					<button type="button" class="btn btn-success"
+						onclick="setPassword()">
+						<i class="fa fa-key fa-fw"></i> Set password
 					</button>
 					<button type="button" class="btn btn-warning"
 						onclick="administration()">
@@ -71,10 +75,60 @@
 			<!-- /.col-md-12 -->
 
 			<div class="col-md-12">
-				<div class="col-md-offset-4">
-					<img class="img-responsive" src="img/test.png" alt="">
+				<h1>Welcome</h1>
+				<div class="col-md-4">
+					<div class="col-md-offset-4">
+						<div class="list-group">
+							<a href="#" class="list-group-item active">${user.username} <img
+								id="avatar" class="img-responsive" src="${user.avatar}"
+								alt="Profile"></a> <a href="#" class="list-group-item">${user.surname}</a>
+							<a href="#" class="list-group-item">${user.name}</a><a href="#"
+								class="list-group-item">${user.country}</a> <a href="#"
+								class="list-group-item">${user.date}</a>
+						</div>
+					</div>
 				</div>
+			</div>
+			<!-- /.col-md-12 -->
 
+			<div class="col-md-12">
+				<div class="col-md-offset-4">
+
+					<div class="form-group">
+						<label for="inputPassword" class="control-label">Password</label>
+						<div class="form-inline row">
+							<div class="form-group col-sm-6">
+								<input type="password" data-minlength="6" class="form-control"
+									id="inputPassword" placeholder="Password" required>
+								<div class="help-block">Minimum of 6 characters</div>
+							</div>
+							<div class="form-group col-sm-6">
+								<input type="password" class="form-control"
+									id="inputPasswordConfirm" data-match="#inputPassword"
+									data-match-error="Whoops, these don't match"
+									placeholder="Confirm" required>
+								<div class="help-block with-errors"></div>
+							</div>
+						</div>
+					</div>
+
+					<form id="formPassword" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Password</label>
+							<div class="col-xs-5">
+								<input type="password" class="form-control" name="password" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Retype password</label>
+							<div class="col-xs-5">
+								<input type="password" class="form-control"
+									name="confirmPassword" />
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
 			<!-- /.col-md-12 -->
 
@@ -102,6 +156,8 @@
 	<script src="plugins/js/bootstrap.min.js"></script>
 	<!-- jGrowl -->
 	<script src="plugins/js/jquery.jgrowl.min.js"></script>
+	<!-- Bootbox JS -->
+	<script src="plugins/js/bootbox.min.js"></script>
 
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>

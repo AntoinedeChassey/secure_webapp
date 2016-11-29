@@ -6,10 +6,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ets.secure_webapp.entities.User;
 import ets.secure_webapp.managers.AppManager;
+import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
 
 @WebServlet("/login")
@@ -27,30 +25,13 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8480593309360208929L;
 
-	private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
-	private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("indow");
+	private MyLogger myLogger = new MyLogger(LoginServlet.class.getName());
 
 	private Map<String, String> authorizedUsers;
 
 	@Override
 	public void init() throws ServletException {
-		// Initialize logger
-		try {
-			// This block configure the logger with handler and formatter
-			ClassLoader classLoader = getClass().getClassLoader();
-			String filePath = classLoader.getResource("ServerLog.log").getFile();
-			// Remove <:> for Windows systems to match the correct filepath
-			String osAppropriatePath = IS_WINDOWS ? filePath.substring(1) : filePath;
-			FileHandler fh = new FileHandler(osAppropriatePath, true);
-			logger.addHandler(fh);
-			logger.setLevel(Level.ALL);
-			SimpleFormatter formatter = new SimpleFormatter();
-			fh.setFormatter(formatter);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		authorizedUsers = new HashMap<>();
 
 		List<User> users = AppManager.getInstance().getUsers();
@@ -77,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
 				System.out.println("[INFO] - Setting maxInactiveInterval: " + user.getRole().getMaxInactiveInterval());
 				request.getSession().setMaxInactiveInterval(user.getRole().getMaxInactiveInterval());
-				response.sendRedirect("welcome");
+				response.sendRedirect("home");
 			} catch (Exception e) {
 				// e.printStackTrace();
 				System.err.println("[ERROR] - No users in session !");
@@ -101,13 +82,13 @@ public class LoginServlet extends HttpServlet {
 				request.getSession().setAttribute("connectedUser", user);
 				System.out.println("ID en session: " + user.getId_user());
 				// log
-				logger.info("Successful authentification with USERNAME: " + usernameInput + " & PASSWORD: "
-						+ passwordInput);
+				myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
+						+ " and PASSWORD: " + passwordInput);
 			} else {
 				System.err.println("[ERROR] - Could not authenticate !");
 				// log
-				logger.info("Unsuccessful authentification with USERNAME: " + usernameInput + " & PASSWORD: "
-						+ passwordInput);
+				myLogger.log(Level.SEVERE, "Unsuccessful authentification with USERNAME: " + usernameInput
+						+ " and PASSWORD: " + passwordInput);
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

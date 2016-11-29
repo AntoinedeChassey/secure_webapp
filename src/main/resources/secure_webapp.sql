@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `role` (
 
 INSERT INTO `role` (`id_role`, `name`, `maxInactiveInterval`) VALUES
 (1, 'admin', 1200),
-(2, 'userCercle', 20),
-(3, 'userCarre', 20);
+(2, 'userCercle', 600),
+(3, 'userCarre', 600);
 
 -- --------------------------------------------------------
 

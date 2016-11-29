@@ -56,8 +56,8 @@
 		<div class="row">
 			<div class="col-md-12" id="links">
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-primary" onclick="welcome()">
-						<i class="fa fa-home fa-fw"></i> Welcome
+					<button type="button" class="btn btn-primary" onclick="home()">
+						<i class="fa fa-home fa-fw"></i> Home
 					</button>
 					<button type="button" class="btn btn-warning"
 						onclick="administration()">
