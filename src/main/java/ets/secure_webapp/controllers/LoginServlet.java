@@ -6,6 +6,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,10 +27,30 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8480593309360208929L;
 
+	private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
+	private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("indow");
+
 	private Map<String, String> authorizedUsers;
 
 	@Override
 	public void init() throws ServletException {
+		// Initialize logger
+		try {
+			// This block configure the logger with handler and formatter
+			ClassLoader classLoader = getClass().getClassLoader();
+			String filePath = classLoader.getResource("ServerLog.log").getFile();
+			// Remove <:> for Windows systems to match the correct filepath
+			String osAppropriatePath = IS_WINDOWS ? filePath.substring(1) : filePath;
+			FileHandler fh = new FileHandler(osAppropriatePath, true);
+			logger.addHandler(fh);
+			logger.setLevel(Level.ALL);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		authorizedUsers = new HashMap<>();
 
 		List<User> users = AppManager.getInstance().getUsers();
@@ -76,9 +100,14 @@ public class LoginServlet extends HttpServlet {
 				User user = AppManager.getInstance().getUserByUsername(usernameInput);
 				request.getSession().setAttribute("connectedUser", user);
 				System.out.println("ID en session: " + user.getId_user());
-
+				// log
+				logger.info("Successful authentification with USERNAME: " + usernameInput + " & PASSWORD: "
+						+ passwordInput);
 			} else {
 				System.err.println("[ERROR] - Could not authenticate !");
+				// log
+				logger.info("Unsuccessful authentification with USERNAME: " + usernameInput + " & PASSWORD: "
+						+ passwordInput);
 			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
