@@ -3,6 +3,23 @@ body {
 	color: #F1F1F1;
 }
 
+#cercle {
+	text-align: center;
+	background: #c71f1f;
+	border-radius: 50%;
+	width: 160px;
+	height: 160px;
+	border: 2px solid #F1F1F1;
+	background: #c71f1f;
+}
+
+#carre {
+	background: #24dbb1;
+	width: 160px;
+	height: 160px;
+	border: 2px solid #F1F1F1;
+}
+
 #links {
 	margin: 20px;
 }

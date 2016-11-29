@@ -27,5 +27,9 @@ public abstract class GenericServlet extends HttpServlet {
 		// Setting admin attribute for DOM
 		if (connectedUser.isAdmin())
 			request.setAttribute("admin", true);
+		if (connectedUser.getRole().getName().equals("userCarre"))
+			request.setAttribute("carre", true);
+		if (connectedUser.getRole().getName().equals("userCercle"))
+			request.setAttribute("cercle", true);
 	}
 }

@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import ets.secure_webapp.entities.User;
 
-@WebFilter({ "/administration" })
-public class AdministrationFilter implements Filter {
+@WebFilter({ "/cercle" })
+public class CercleFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -28,10 +28,10 @@ public class AdministrationFilter implements Filter {
 
 		User user = (User) httpRequest.getSession().getAttribute("connectedUser");
 
-		if (user != null && user.isAdmin() == false) {
-			System.err.println("[ERROR] - User is not admin!");
+		if (!user.getRole().getName().equals("userCercle") && user.isAdmin() == false) {
+			System.err.println("[ERROR] - User is not userCercle!");
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpResponse.sendRedirect("login");
+			httpResponse.sendRedirect("home");
 			return;
 		}
 

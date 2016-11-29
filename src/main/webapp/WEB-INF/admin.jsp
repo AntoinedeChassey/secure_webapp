@@ -53,20 +53,9 @@
 		<!-- App Row -->
 		<div class="row">
 			<div class="col-md-12" id="links">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-primary" onclick="home()">
-						<i class="fa fa-home fa-fw"></i> Home
-					</button>
-					<button type="button" class="btn btn-warning"
-						onclick="administration()">
-						<i class="fa fa-gear fa-fw"></i> Administration
-					</button>
-					<button type="button" class="btn btn-danger" onclick="logout()">
-						<i class="fa fa-sign-out fa-fw"></i> Logout
-					</button>
-				</div>
-				<!-- /.col-md-12 -->
+				<c:import url="menu.jsp"></c:import>
 			</div>
+			<!-- /.col-md-12 -->
 
 			<div class="col-md-12">
 
@@ -232,7 +221,7 @@
 	<script src="plugins/js/bootstrap.min.js"></script>
 	<!-- Bootbox JS -->
 	<script src="plugins/js/bootbox.min.js"></script>
-	
+
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>
 </body>

@@ -10,6 +10,14 @@ function logout() {
 	window.location.href = "logout";
 }
 
+function carre() {
+	window.location.href = "carre";
+}
+
+function cercle() {
+	window.location.href = "cercle";
+}
+
 var isShown = false;
 function setPassword() {
 	if (isShown) {
