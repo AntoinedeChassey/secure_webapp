@@ -1,4 +1,5 @@
 <%@ page pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,13 +51,21 @@
 
 		<!-- Projects Row -->
 		<div class="row">
-			<div class="col-md-12">		
+			<div class="col-md-12">
 
 				<div class="col-md-6 col-md-offset-3">
 
 					<div class="panel">
 						<h3>Sign in</h3>
 						<hr>
+						<c:if test="${timeToWaitBeforeNewLogin != 0}">
+							<h5 class="text-danger">Please wait for
+								${timeToWaitBeforeNewLogin} seconds</h5>
+						</c:if>
+						<c:if test="${attemptsLeft <= 5 && attemptsLeft !=0}">
+							<h5 class="text-danger">Number of attempts left
+								${attemptsLeft}</h5>
+						</c:if>
 						<h4>Type in your information</h4>
 						<form name="connexion" method="POST" role="form">
 							<fieldset>

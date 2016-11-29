@@ -30,6 +30,10 @@ public class LoginServlet extends HttpServlet {
 
 	private Map<String, String> authorizedUsers;
 
+	private long timeToWaitBeforeNewLogin;
+
+	private int attemptsLeft;
+
 	@Override
 	public void init() throws ServletException {
 
@@ -42,16 +46,19 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(authorizedUsers);
 
 		// Database init
-//		User admin = new User(null, null, "admin@test.com", "admin", "Best", "Admin", "./img/users/test.png", "Canada",
-//				null);
-//		User userCarre = new User(null, null, "usercarre@test.com", "user", "Carre", "User", "./img/users/profile.png",
-//				"Canada", null);
-//		User userCercle = new User(null, null, "usercercle@test.com", "user", "Cercle", "Cercle",
-//				"./img/users/profile.png", "France", null);
-//
-//		AppManager.getInstance().addUser(admin);
-//		AppManager.getInstance().addUser(userCarre);
-//		AppManager.getInstance().addUser(userCercle);
+		// User admin = new User(null, null, "admin@test.com", "admin", "Best",
+		// "Admin", "./img/users/test.png", "Canada",
+		// null);
+		// User userCarre = new User(null, null, "usercarre@test.com", "user",
+		// "Carre", "User", "./img/users/profile.png",
+		// "Canada", null);
+		// User userCercle = new User(null, null, "usercercle@test.com", "user",
+		// "Cercle", "Cercle",
+		// "./img/users/profile.png", "France", null);
+		//
+		// AppManager.getInstance().addUser(admin);
+		// AppManager.getInstance().addUser(userCarre);
+		// AppManager.getInstance().addUser(userCercle);
 	}
 
 	@Override
@@ -59,6 +66,9 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		init();
+
+		request.setAttribute("timeToWaitBeforeNewLogin", timeToWaitBeforeNewLogin/1000);
+		request.setAttribute("attemptsLeft", attemptsLeft);		
 
 		User user = (User) request.getSession().getAttribute("connectedUser");
 		if (user == null || "".equals(user)) {
@@ -93,9 +103,8 @@ public class LoginServlet extends HttpServlet {
 				// If the user entered the correct login association and if he
 				// has
 				// attempted less than 5 times
-				if (authorizedUsers.containsKey(usernameInput)
-						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))
-						&& userIsAllowedToConnect(user)) {
+				if (userIsAllowedToConnect(user) && authorizedUsers.containsKey(usernameInput)
+						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
 
 					// Resetting logs
 					AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
@@ -109,9 +118,9 @@ public class LoginServlet extends HttpServlet {
 							+ " and PASSWORD: " + passwordInput);
 				} else {
 					AppManager.getInstance().incrementLogConnection(user.getId_user());
-					System.err.println("[ERROR] - Could not authenticate !");
+					// System.err.println("[ERROR] - Could not authenticate !");
 					// Log
-					myLogger.log(Level.SEVERE, "Unsuccessful authentification with USERNAME: " + usernameInput
+					myLogger.log(Level.WARNING, "Unsuccessful authentification with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
 				}
 			} catch (NoSuchAlgorithmException e) {
@@ -127,9 +136,10 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	private boolean userIsAllowedToConnect(User user) {
+		System.out.println("checking if userIsAllowedToConnect");
 		LogConnection log = AppManager.getInstance().getConnectionLogByUserId(user.getId_user());
 		Integer maxAttempts = user.getRole().getMaxAttempts();
-		Long maxTimeForPhase1 = user.getRole().getMaxTimeforPhase1();
+		Long maxTimeForPhase1 = user.getRole().getMaxTimeForPhase1();
 
 		// If phase 1, maxAttempts reached, maxTime between attempts reached
 		if (log.getPhase() == 1 && (log.getAttempts() > maxAttempts)
@@ -138,9 +148,12 @@ public class LoginServlet extends HttpServlet {
 			AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 2);
 			log.setPhase(2);
 		}
+		
+		attemptsLeft = maxAttempts - log.getAttempts();
 
+		// If valid
 		if (log.getPhase() == 0 && (log.getAttempts() < maxAttempts)) {
-			System.out.println("log.getAttempts() < maxAttempts");
+			System.out.println("phase 0, attempts < maxAttempts");
 			return true;
 		}
 		// Setting to phase 1 and reseting attempts because user is not phase 0
@@ -151,7 +164,7 @@ public class LoginServlet extends HttpServlet {
 
 		// If phase 1, maxAttempts not reached, maxTime between attempts reached
 		if (log.getPhase() == 1 && (System.currentTimeMillis() - log.getDate().getTime()) > maxTimeForPhase1) {
-			System.out.println("log.getAttempts() < maxAttempts");
+			System.out.println("phase 1, maxTimeForPhase1 passed");
 			return true;
 		}
 
@@ -160,6 +173,8 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("log.getPhase() == 2");
 			return false;
 		}
+		timeToWaitBeforeNewLogin = maxTimeForPhase1 - (System.currentTimeMillis() - log.getDate().getTime());
+
 		return false;
 	}
 }

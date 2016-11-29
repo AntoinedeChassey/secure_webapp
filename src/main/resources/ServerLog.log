@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T13:35:07</date>
+  <millis>1480444507706</millis>
+  <sequence>408</sequence>
+  <logger>ets.secure_webapp.dao.impl.SecurityDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>130</thread>
+  <message>Admin for id_user - 17 reset connection attempts!</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T13:35:07</date>
+  <millis>1480444507716</millis>
+  <sequence>409</sequence>
+  <logger>ets.secure_webapp.dao.impl.SecurityDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>130</thread>
+  <message>Admin for id_user - 17 set connection phase to 1!</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T13:35:07</date>
+  <millis>1480444507726</millis>
+  <sequence>410</sequence>
+  <logger>ets.secure_webapp.dao.impl.SecurityDaoImpl</logger>
+  <level>WARNING</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>130</thread>
+  <message>User: id_user - 17 bad authentification, incrementing connection logs!</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T13:35:07</date>
+  <millis>1480444507730</millis>
+  <sequence>411</sequence>
+  <logger>ets.secure_webapp.controllers.LoginServlet</logger>
+  <level>WARNING</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>130</thread>
+  <message>Unsuccessful authentification with USERNAME: admin@test.com and PASSWORD: aaa</message>
+</record>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2016-11-29T13:35:07</date>
+  <millis>1480444507748</millis>
+  <sequence>412</sequence>
+  <logger>ets.secure_webapp.dao.impl.UserDaoImpl</logger>
+  <level>INFO</level>
+  <class>ets.secure_webapp.utils.MyLogger</class>
+  <method>log</method>
+  <thread>130</thread>
+  <message>getUsers</message>
+</record>

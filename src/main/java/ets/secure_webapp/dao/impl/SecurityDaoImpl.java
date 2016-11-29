@@ -47,7 +47,7 @@ public class SecurityDaoImpl implements SecurityDao {
 			stmt.setInt(2, id_user);
 			stmt.executeUpdate();
 			connection.close();
-			myLogger.log(Level.SEVERE,
+			myLogger.log(Level.WARNING,
 					"User: id_user - " + id_user + " bad authentification, incrementing connection logs!");
 			return true;
 		} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class SecurityDaoImpl implements SecurityDao {
 			stmt.setInt(1, id_user);
 			stmt.executeUpdate();
 			connection.close();
-			myLogger.log(Level.SEVERE, "Admin for id_user - " + id_user + " reset connection attempts!");
+			myLogger.log(Level.INFO, "Admin for id_user - " + id_user + " reset connection attempts!");
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class SecurityDaoImpl implements SecurityDao {
 			stmt.setInt(2, id_user);
 			stmt.executeUpdate();
 			connection.close();
-			myLogger.log(Level.SEVERE, "Admin for id_user - " + id_user + " set connection phase to " + phase + "!");
+			myLogger.log(Level.INFO, "Admin for id_user - " + id_user + " set connection phase to " + phase + "!");
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();

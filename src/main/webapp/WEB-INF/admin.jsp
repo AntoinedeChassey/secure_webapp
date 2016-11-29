@@ -172,6 +172,8 @@
 										<th>id_role</th>
 										<th>Name</th>
 										<th>MaxInactiveInterval</th>
+										<th>MaxAttempts</th>
+										<th>MaxTimeForPhase1</th>
 										<th>Options</th>
 									</tr>
 								</thead>
@@ -182,6 +184,8 @@
 											<td class="id_role">${role.id_role}</td>
 											<td class="name">${role.name}</td>
 											<td class="maxInactiveInterval">${role.maxInactiveInterval}</td>
+											<td class="maxAttempts">${role.maxAttempts}</td>
+											<td class="maxTimeForPhase1">${role.maxTimeForPhase1}</td>
 											<td><i class="updateRole fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
 												class="deleteRole fa fa-trash fa-lg"></i></td>
 										</tr>
