@@ -49,6 +49,9 @@ public class AppManager {
 	}
 
 	// Security methods
+	public List<LogConnection> getLogConnections() {
+		return securityDao.getLogConnections();
+	}
 
 	public boolean incrementLogConnection(Integer id_user) {
 		return securityDao.incrementLogConnection(id_user);
@@ -61,7 +64,7 @@ public class AppManager {
 	public boolean resetLogConnectionAttempts(Integer id_user) {
 		return securityDao.resetLogConnectionAttempts(id_user);
 	}
-	
+
 	public boolean setLogConnectionPhase(Integer id_user, Integer phase) {
 		return securityDao.setLogConnectionPhase(id_user, phase);
 	}

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import ets.secure_webapp.dao.SecurityDao;
@@ -88,5 +90,26 @@ public class SecurityDaoImpl implements SecurityDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<LogConnection> getLogConnections() {
+		List<LogConnection> logConnections = new ArrayList<LogConnection>();
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM log_connection ORDER BY id_user DESC");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				LogConnection logConnection = new LogConnection(rs.getInt("id_log_connection"), rs.getInt("id_user"),
+						rs.getInt("phase"), rs.getInt("attempts"), rs.getTimestamp("date"));
+				logConnections.add(logConnection);
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// Log
+		myLogger.log(Level.INFO, "getConnectionLogs");
+		return logConnections;
 	}
 }

@@ -16,7 +16,7 @@ import ets.secure_webapp.entities.User;
 
 @WebFilter({ "/home", "/administration", "/cercle", "/carre" })
 
-public class AuthentificationFilter implements Filter {
+public class ReAuthentificationFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -29,15 +29,17 @@ public class AuthentificationFilter implements Filter {
 
 		User user = (User) httpRequest.getSession().getAttribute("connectedUser");
 
-		if (user == null || "".equals(user)) {
-			System.err.println("[ERROR] - User is not connected!");
-			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpResponse.sendRedirect("login");
-			return;
+		if (user != null && !"".equals(user)) {
+			// Check for time between passwords modified
+			if (1 == 2) {
+				httpRequest.getSession().removeAttribute("connectedUser");
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				httpResponse.sendRedirect("login");
+				return;
+			}
 		}
-		
-		chain.doFilter(request, response);
 
+		chain.doFilter(request, response);
 	}
 
 	@Override

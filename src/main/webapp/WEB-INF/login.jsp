@@ -25,13 +25,6 @@
 <!-- Custom CSS -->
 <link href="css/app.css" rel="stylesheet">
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-
 </head>
 
 <body>
@@ -58,13 +51,16 @@
 					<div class="panel">
 						<h3>Sign in</h3>
 						<hr>
-						<c:if test="${timeToWaitBeforeNewLogin != 0}">
-							<h5 class="text-danger">Please wait for
-								${timeToWaitBeforeNewLogin} seconds</h5>
+						<c:if test="${waitTimeLeft > 0}">
+							<h5 class="text-danger" id="waitTimeLeft">${waitTimeLeft}</h5>
 						</c:if>
-						<c:if test="${attemptsLeft <= 5 && attemptsLeft !=0}">
+						<c:if test="${attemptsLeft <= 5 && attemptsLeft > 0}">
 							<h5 class="text-danger">Number of attempts left
 								${attemptsLeft}</h5>
+						</c:if>
+						<c:if test="${phase == 2}">
+							<h5 class="text-danger">Your account has been locked. You
+								have to ask the admin to retrieve it.</h5>
 						</c:if>
 						<h4>Type in your information</h4>
 						<form name="connexion" method="POST" role="form">
@@ -124,8 +120,7 @@
 	<script src="plugins/js/bootstrap.min.js"></script>
 
 	<!-- Custom JS -->
-	<!-- 	<script src="js/app.js"></script>
- -->
+	<script src="js/login.js"></script>
 </body>
 
 </html>

@@ -35,6 +35,9 @@ public class HomeServlet extends GenericServlet {
 		String newPassword = request.getParameter("newPassword");
 		User connectedUser = (User) request.getSession().getAttribute("connectedUser");
 		
+		/**
+		 * Back-end check-up for more security
+		 */
 		if (newPassword.length() >= 8 && newPassword.length() <= 20) {
 			if (AppManager.getInstance().setUserPassword(connectedUser.getId_user(), newPassword)) {
 				// Log

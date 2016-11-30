@@ -3,8 +3,6 @@ package ets.secure_webapp.controllers;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -28,22 +26,8 @@ public class LoginServlet extends HttpServlet {
 
 	private MyLogger myLogger = new MyLogger(LoginServlet.class.getName());
 
-	private Map<String, String> authorizedUsers;
-
-	private long timeToWaitBeforeNewLogin;
-
-	private int attemptsLeft;
-
 	@Override
 	public void init() throws ServletException {
-
-		authorizedUsers = new HashMap<>();
-
-		List<User> users = AppManager.getInstance().getUsers();
-		for (int i = 0; i < users.size(); i++) {
-			authorizedUsers.put(users.get(i).getUsername(), users.get(i).getPassword());
-		}
-		System.out.println(authorizedUsers);
 
 		// Database init
 		// User admin = new User(null, null, "admin@test.com", "admin", "Best",
@@ -59,24 +43,32 @@ public class LoginServlet extends HttpServlet {
 		// AppManager.getInstance().addUser(admin);
 		// AppManager.getInstance().addUser(userCarre);
 		// AppManager.getInstance().addUser(userCercle);
+
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		init();
+		// Send status to the LoginFilter
+		request.getSession().setAttribute("isLoginSuccess", false);
 
-		request.setAttribute("timeToWaitBeforeNewLogin", timeToWaitBeforeNewLogin/1000);
-		request.setAttribute("attemptsLeft", attemptsLeft);		
+		// init();
+
+		// Get user status from LoginFilter
+		// Integer phase = (Integer) request.getSession().getAttribute("phase");
+		// Long waitTimeRemaining = (Long)
+		// request.getSession().getAttribute("waitTimeRemaining");
+		// Integer attemptsRemaining = (Integer)
+		// request.getSession().getAttribute("attemptsRemaining");
 
 		User user = (User) request.getSession().getAttribute("connectedUser");
+
 		if (user == null || "".equals(user)) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/login.jsp");
 			view.forward(request, response);
 		} else {
 			try {
-
 				System.out.println(
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
 				System.out.println("[INFO] - Setting maxInactiveInterval: " + user.getRole().getMaxInactiveInterval());
@@ -84,7 +76,7 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("home");
 			} catch (Exception e) {
 				// e.printStackTrace();
-				System.err.println("[ERROR] - No users in session !");
+				// System.err.println("[ERROR] - No users in session !");
 			}
 		}
 	}
@@ -96,86 +88,92 @@ public class LoginServlet extends HttpServlet {
 		String usernameInput = request.getParameter("username");
 		String passwordInput = request.getParameter("password");
 
-		User user = AppManager.getInstance().getUserByUsername(usernameInput);
+		// Try to get the last usernameInput and check if user can be in the
+		// authorizedUsers to connect
+		User userInput = AppManager.getInstance().getUserByUsername(usernameInput);
+		if (userInput != null) {
 
-		if (user != null) {
+			LogConnection log = AppManager.getInstance().getConnectionLogByUserId(userInput.getId_user());
+			Integer currentPhase = log.getPhase();
+			Integer maxAttempts = userInput.getRole().getMaxAttempts();
+			Long maxTimeForPhase1 = userInput.getRole().getMaxTimeForPhase1();
+			Long timeWaited = (System.currentTimeMillis() - log.getDate().getTime());
+			Integer attemptsLeft = 0;
+			if (currentPhase != 2) {
+				attemptsLeft = maxAttempts - log.getAttempts() - 1; // doPost
+																	// is
+																	// a
+																	// try
+																	// already
+			}
+			request.getSession().setAttribute("phase", currentPhase);
+			request.getSession().setAttribute("attemptsLeft", attemptsLeft);
+
+			if ((timeWaited <= maxTimeForPhase1) && (currentPhase == 1)) {
+				Long waitTimeLeft = maxTimeForPhase1 - timeWaited;
+				// Setting attribute waitTimeLeft in seconds
+				request.getSession().setAttribute("waitTimeLeft", waitTimeLeft / 1000);
+			}
+		}
+
+		Map<String, String> authorizedUsers = (Map<String, String>) request.getSession()
+				.getAttribute("authorizedUsers");
+		System.out.println(authorizedUsers);
+
+		// Get user status from LoginFilter
+		Integer phase = (Integer) request.getSession().getAttribute("phase");
+		Long waitTimeLeft = (Long) request.getSession().getAttribute("waitTimeLeft");
+		// Integer attemptsLeft = (Integer)
+		// request.getSession().getAttribute("attemptsLeft");
+
+		if (waitTimeLeft <= 0 && phase != 2) {
 			try {
-				// If the user entered the correct login association and if he
-				// has
-				// attempted less than 5 times
-				if (userIsAllowedToConnect(user) && authorizedUsers.containsKey(usernameInput)
+				if (authorizedUsers.containsKey(usernameInput)
 						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
 
-					// Resetting logs
+					User user = AppManager.getInstance().getUserByUsername(usernameInput);
+
+					// Resetting connection logs and attributes
 					AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
 					AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 0);
-					attemptsLeft = 0;
-					
-					System.out.println("[INFO] - Saving user attributes to session...");
+					request.getSession().setAttribute("phase", 0);
+					request.getSession().setAttribute("waitTimeLeft", 0L);
+					request.getSession().setAttribute("attemptsLeft", 100);
+
+					// System.out.println("[INFO] - Saving user attributes to
+					// session...");
 					request.getSession().setAttribute("connectedUser", user);
-					System.out.println("ID en session: " + user.getId_user());
-					// Log
+					// System.out.println("ID en session: " +
+					// user.getId_user());
+					// Log info
 					myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
+
+					// Send status to the LoginFilter
+					request.getSession().setAttribute("isLoginSuccess", true);
+
 				} else {
-					AppManager.getInstance().incrementLogConnection(user.getId_user());
-					// System.err.println("[ERROR] - Could not authenticate !");
 					// Log
 					myLogger.log(Level.WARNING, "Unsuccessful authentification with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
+					// Store the username to verify bruteforcing in the
+					// LoginFilter
+					request.getSession().setAttribute("usernameInput", usernameInput);
+					// Send status to the LoginFilter
+					request.getSession().setAttribute("isLoginSuccess", false);
+
 				}
 			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvalidKeySpecException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			// Log
-			myLogger.log(Level.SEVERE, "User is not in DB: " + usernameInput);
+			myLogger.log(Level.WARNING, "POST rejected for input - " + usernameInput);
 		}
 		this.doGet(request, response);
-	}
-
-	private boolean userIsAllowedToConnect(User user) {
-		System.out.println("checking if userIsAllowedToConnect");
-		LogConnection log = AppManager.getInstance().getConnectionLogByUserId(user.getId_user());
-		Integer maxAttempts = user.getRole().getMaxAttempts();
-		Long maxTimeForPhase1 = user.getRole().getMaxTimeForPhase1();
-
-		// If phase 1, maxAttempts reached, maxTime between attempts reached
-		if (log.getPhase() == 1 && (log.getAttempts() > maxAttempts)
-				&& (System.currentTimeMillis() - log.getDate().getTime()) > maxTimeForPhase1) {
-			// Setting to phase 2, blocked
-			AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 2);
-			log.setPhase(2);
-		}
-		
-		attemptsLeft = maxAttempts - log.getAttempts();
-
-		// If valid
-		if (log.getPhase() == 0 && (log.getAttempts() < maxAttempts)) {
-			System.out.println("phase 0, attempts < maxAttempts");
-			return true;
-		}
-		// Setting to phase 1 and reseting attempts because user is not phase 0
-		// and reached maxAttempts
-		AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
-		AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 1);
-		log.setPhase(1);
-
-		// If phase 1, maxAttempts not reached, maxTime between attempts reached
-		if (log.getPhase() == 1 && (System.currentTimeMillis() - log.getDate().getTime()) > maxTimeForPhase1) {
-			System.out.println("phase 1, maxTimeForPhase1 passed");
-			return true;
-		}
-
-		// Phase 2 -> directly return false
-		else if (log.getPhase() == 2) {
-			System.out.println("log.getPhase() == 2");
-			return false;
-		}
-		timeToWaitBeforeNewLogin = maxTimeForPhase1 - (System.currentTimeMillis() - log.getDate().getTime());
-
-		return false;
 	}
 }
