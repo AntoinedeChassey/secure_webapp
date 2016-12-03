@@ -30,17 +30,20 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 
-		// Database init
-		User admin = new User(null, null, "admin@test.com", "admin", "Best", "Admin", "./img/users/test.png", "Canada",
-				null);
-		User userCarre = new User(null, null, "usercarre@test.com", "user", "Carre", "User", "./img/users/profile.png",
-				"Canada", null);
-		User userCercle = new User(null, null, "usercercle@test.com", "user", "Cercle", "Cercle",
-				"./img/users/profile.png", "France", null);
-
-		AppManager.getInstance().addUser(admin, 1);
-		AppManager.getInstance().addUser(userCercle, 2);
-		AppManager.getInstance().addUser(userCarre, 3);
+		// // Database init
+		// User admin = new User(null, null, "admin@test.com", "admin", "Best",
+		// "Admin", "./img/users/test.png", "Canada",
+		// null);
+		// User userCarre = new User(null, null, "usercarre@test.com", "user",
+		// "Carre", "User", "./img/users/profile.png",
+		// "Canada", null);
+		// User userCercle = new User(null, null, "usercercle@test.com", "user",
+		// "Cercle", "Cercle",
+		// "./img/users/profile.png", "France", null);
+		//
+		// AppManager.getInstance().addUser(admin, 1);
+		// AppManager.getInstance().addUser(userCercle, 2);
+		// AppManager.getInstance().addUser(userCarre, 3);
 
 	}
 
@@ -54,8 +57,6 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("isLoginSuccess", false);
 		// Setting reauthentication to false by default
 		session.setAttribute("isReAuthenticateSuccess", false);
-
-		// init();
 
 		// Get user status from LoginFilter
 		// Integer phase = (Integer) request.getSession().getAttribute("phase");

@@ -58,11 +58,11 @@
 						<a href="#" class="list-group-item active"><b>${user.username}</b>
 							<img id="avatar" class="pull-right img-responsive"
 							src="${user.avatar}" alt="Profile"></a> <a href="#"
-							class="list-group-item">${user.surname}</a> <a href="#"
-							class="list-group-item">${user.name}</a><a href="#"
-							class="list-group-item">${user.country}</a> <a href="#"
-							class="list-group-item">${user.date}</a> <a href="#"
-							class="list-group-item"><button type="button"
+							class="list-group-item">Surname: <b>${user.surname}</b></a> <a
+							href="#" class="list-group-item">Name: <b>${user.name}</b></a><a
+							href="#" class="list-group-item">From: <b>${user.country}</b></a>
+						<a href="#" class="list-group-item">Created: <b>${user.date}</b></a>
+						<a href="#" class="list-group-item"><button type="button"
 								class="btn btn-success center-block" onclick="setPassword();">
 								<i class="fa fa-key fa-fw"></i> Set password
 							</button></a>

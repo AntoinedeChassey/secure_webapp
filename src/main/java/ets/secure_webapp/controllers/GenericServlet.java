@@ -15,17 +15,22 @@ public abstract class GenericServlet extends HttpServlet {
 	private static final long serialVersionUID = -3237151023361632888L;
 
 	/**
-	 * This method is used to get the connected user and use its data on client side.
-	 * This Servlet extends HttpServlet so any page can heritate from it.
+	 * This method is used to get the connected user and use its data on client
+	 * side. This Servlet extends HttpServlet so any page can heritate from it.
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
 
 		User connectedUser = (User) session.getAttribute("connectedUser");
 		request.setAttribute("user", connectedUser);
+
+		// Setting default values
+		session.setAttribute("admin", false);
+		session.setAttribute("carre", false);
+		session.setAttribute("cercle", false);
 
 		// Setting admin attribute for DOM
 		if (connectedUser.isAdmin())
