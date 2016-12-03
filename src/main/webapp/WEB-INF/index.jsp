@@ -63,7 +63,7 @@
 							class="list-group-item">${user.country}</a> <a href="#"
 							class="list-group-item">${user.date}</a> <a href="#"
 							class="list-group-item"><button type="button"
-								class="btn btn-success center-block" onclick="setPassword()">
+								class="btn btn-success center-block" onclick="setPassword();">
 								<i class="fa fa-key fa-fw"></i> Set password
 							</button></a>
 					</div>

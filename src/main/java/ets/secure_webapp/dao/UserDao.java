@@ -12,7 +12,7 @@ public interface UserDao {
 
 	public boolean setUserPassword(Integer id_user, String newPassword);
 
-	public boolean addUser(User newUser);
+	public boolean addUser(User newUser, Integer id_role);
 
 	public User getUserById(Integer id_user);
 }

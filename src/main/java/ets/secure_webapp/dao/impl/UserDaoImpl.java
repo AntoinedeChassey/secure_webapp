@@ -154,7 +154,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean addUser(User newUser) {
+	public boolean addUser(User newUser, Integer id_role) {
 		try {
 			Connection connection = getConnection();
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE username=?");
@@ -167,7 +167,7 @@ public class UserDaoImpl implements UserDao {
 							"INSERT INTO user(id_role, username, password, surname, name, avatar, country) VALUES(?,?,?,?,?,?,?)",
 							Statement.RETURN_GENERATED_KEYS);
 					// Setting id_role to 2
-					stmt2.setInt(1, 2);
+					stmt2.setInt(1, id_role);
 					stmt2.setString(2, newUser.getUsername());
 					String encryptedPassword = null;
 					try {

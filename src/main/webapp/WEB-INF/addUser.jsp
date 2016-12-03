@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Set Password</title>
+<title>Add User</title>
 
 <!-- Bootstrap CSS -->
 <link href="plugins/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="page-header">
-					Set your password <small>Secure Web Application <i>GTI-619</i></small>
+					Add a new user <small>Secure Web Application <i>GTI-619</i></small>
 				</h1>
 			</div>
 		</div>
@@ -52,34 +52,67 @@
 			<!-- /.col-md-12 -->
 
 			<div class="col-md-12">
-				<h1>Change your password below</h1>
+				<h1>New User</h1>
 				<br>
 				<div class="col-md-8">
-					<form id="formPassword" class="form-horizontal" method="POST">
+					<form id="formUser" class="form-horizontal" method="POST">
 						<div class="form-group">
-							<label class="col-xs-3 control-label">New password</label>
+							<label class="col-xs-3 control-label">Role</label>
 							<div class="col-xs-5">
-								<input type="password" class="form-control" name="newPassword"
+								<select class="roleName form-control" name="id_role">
+									<c:forEach var="role" items="${roles}">
+										<option class="text-danger" value="${role.id_role}">${role.name}</option>
+									</c:forEach>
+								</select>
+								<div class="help-block">Pick one</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Username</label>
+							<div class="col-xs-5">
+								<input type="email" class="form-control" name="username"
+									placeholder="Username" required>
+								<div class="help-block">Valid email address</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Password</label>
+							<div class="col-xs-5">
+								<input type="password" class="form-control" name="password"
 									placeholder="Password" required>
 								<div class="help-block">Minimum of: 8 characters with 1
 									upper, 1 lower, 1 special</div>
 							</div>
 						</div>
-
 						<div class="form-group">
-
-							<label class="col-xs-3 control-label">Retype password</label>
+							<label class="col-xs-3 control-label">Surname</label>
 							<div class="col-xs-5">
-								<input type="password" class="form-control"
-									name="confirmNewPassword" placeholder="Re-enter Password"
+								<input class="form-control" name="surname" placeholder="Surname"
 									required>
+								<div class="help-block">Max 10 characters</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Name</label>
+							<div class="col-xs-5">
+								<input class="form-control" name="name" placeholder="Name"
+									required>
+								<div class="help-block">Max 10 characters</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-3 control-label">Country</label>
+							<div class="col-xs-5">
+								<input class="form-control" name="country" placeholder="Country"
+									required>
+								<div class="help-block">Max 10 characters</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-3 control-label"></label>
 							<div class="col-xs-5">
-								<button type="submit" class="btn btn-success center-block"
-									onclick="validatePassword()">Submit</button>
+								<button type="button" class="btn btn-success center-block"
+									onclick="validateNewUser()">Submit</button>
 							</div>
 						</div>
 					</form>
@@ -117,7 +150,7 @@
 	<script src="plugins/js/toastr.min.js"></script>
 
 	<!-- Custom JS -->
-	<script src="js/app.js"></script>
+	<script src="js/app_admin.js"></script>
 	<script src="js/notification.js"></script>
 </body>
 

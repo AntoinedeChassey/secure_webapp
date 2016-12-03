@@ -92,9 +92,6 @@
 	<script src="plugins/js/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="plugins/js/bootstrap.min.js"></script>
-
-	<!-- Custom JS -->
-	<script src="js/login.js"></script>
 </body>
 
 </html>

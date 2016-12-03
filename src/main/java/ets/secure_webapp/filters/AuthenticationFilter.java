@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
 
-@WebFilter({ "/home", "/relogin", "/setPassword", "/administration", "/cercle", "/carre" })
+@WebFilter({ "/home", "/reauthenticate", "/setPassword", "/administration", "/addUser", "/cercle", "/carre" })
 
 public class AuthenticationFilter implements Filter {
 
@@ -27,9 +27,9 @@ public class AuthenticationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		
+
 		HttpSession session = httpRequest.getSession();
-		
+
 		User user = (User) session.getAttribute("connectedUser");
 
 		if (user == null || "".equals(user)) {
@@ -38,7 +38,7 @@ public class AuthenticationFilter implements Filter {
 			httpResponse.sendRedirect("login");
 			return;
 		}
-		
+
 		chain.doFilter(request, response);
 
 	}

@@ -31,6 +31,11 @@ body {
 	margin: 10px;
 }
 
+.avatarTable{
+	max-width: 40px;
+	max-height: 40px;
+}
+
 .panel {
 	padding: 30px;
 	border: thin;

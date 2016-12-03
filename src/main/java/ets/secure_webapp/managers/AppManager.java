@@ -44,10 +44,10 @@ public class AppManager {
 		return userDao.setUserPassword(id_user, newPassword);
 	}
 
-	public boolean addUser(User newUser) {
-		return userDao.addUser(newUser);
+	public boolean addUser(User newUser, Integer id_role) {
+		return userDao.addUser(newUser, id_role);
 	}
-	
+
 	public User getUserById(Integer id_user) {
 		return userDao.getUserById(id_user);
 	}

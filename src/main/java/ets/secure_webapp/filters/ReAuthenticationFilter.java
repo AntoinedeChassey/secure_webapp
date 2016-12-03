@@ -34,7 +34,7 @@ public class ReAuthenticationFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		HttpSession session = httpRequest.getSession();
-		
+
 		isReAuthenticateSuccess = (Boolean) session.getAttribute("isReAuthenticateSuccess");
 		if (!isReAuthenticateSuccess) {
 			httpResponse.sendRedirect("reauthenticate");
@@ -44,6 +44,7 @@ public class ReAuthenticationFilter implements Filter {
 		// Before servlet
 		chain.doFilter(request, response);
 		// After servlet
+
 	}
 
 	@Override

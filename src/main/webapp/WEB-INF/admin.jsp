@@ -64,7 +64,6 @@
 										<th>#</th>
 										<th>Role</th>
 										<th>Username</th>
-										<th>Password</th>
 										<th>Surname</th>
 										<th>Name</th>
 										<th>Avatar</th>
@@ -79,14 +78,15 @@
 											<td>${loop.index+1}</td>
 											<td><select class="roleName form-control">
 													<c:forEach var="role" items="${roles}">
-														<option class="text-danger">${role.name}</option>
+														<option class="text-danger" value="${role.id_role}">${role.name}</option>
 													</c:forEach>
 											</select></td>
 											<td class="username text-success">${user.username}</td>
-											<td class="password">********</td>
 											<td class="surname">${user.surname}</td>
 											<td class="name">${user.name}</td>
-											<td class="avatar">${user.avatar}</td>
+											<td class="avatar"><img
+												class="avatarTable img-responsive" src="${user.avatar}"
+												alt="Profile"></td>
 											<td class="country">${user.country}</td>
 											<td class="date">${user.date}</td>
 											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
@@ -99,7 +99,7 @@
 					</div>
 				</div>
 				<!-- /.panel -->
-	
+
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -151,7 +151,6 @@
 										<th>#</th>
 										<th>Role</th>
 										<th>Username</th>
-										<th>Password</th>
 										<th>Surname</th>
 										<th>Name</th>
 										<th>Avatar</th>
@@ -161,19 +160,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="user" items="${users}" varStatus="loop">
+									<c:forEach var="user" items="${blockedUsers}" varStatus="loop">
 										<tr>
 											<td>${loop.index+1}</td>
-											<td><select class="roleName form-control">
-													<c:forEach var="role" items="${roles}">
-														<option class="text-danger">${role.name}</option>
-													</c:forEach>
-											</select></td>
+											<td class="role">${user.role.name}</td>
 											<td class="username text-success">${user.username}</td>
-											<td class="password">********</td>
 											<td class="surname">${user.surname}</td>
 											<td class="name">${user.name}</td>
-											<td class="avatar">${user.avatar}</td>
+											<td class="avatar"><img
+												class="avatarTable img-responsive" src="${user.avatar}"
+												alt="Profile"></td>
 											<td class="country">${user.country}</td>
 											<td class="date">${user.date}</td>
 											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
@@ -215,7 +211,7 @@
 	<script src="plugins/js/bootbox.min.js"></script>
 
 	<!-- Custom JS -->
-	<script src="js/app.js"></script>
+	<script src="js/app_admin.js"></script>
 </body>
 
 </html>

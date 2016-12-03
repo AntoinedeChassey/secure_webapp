@@ -28,6 +28,9 @@ public class AdministrationServlet extends GenericServlet {
 
 		HttpSession session = request.getSession();
 
+		// Reseting attribute for filter to be activated
+		session.setAttribute("isReAuthenticateSuccess", false);
+
 		List<LogConnection> logConnections = AppManager.getInstance().getLogConnections();
 		session.setAttribute("logConnections", logConnections);
 

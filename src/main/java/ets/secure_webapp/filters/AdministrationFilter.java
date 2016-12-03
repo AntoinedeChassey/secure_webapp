@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
 
-@WebFilter({ "/administration" })
+@WebFilter({ "/administration" , "/addUser"})
 public class AdministrationFilter implements Filter {
 
 	@Override
