@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
 import ets.secure_webapp.managers.AppManager;
@@ -26,32 +27,5 @@ public class HomeServlet extends GenericServlet {
 
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/index.jsp");
 		view.forward(request, response);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		String newPassword = request.getParameter("newPassword");
-		User connectedUser = (User) request.getSession().getAttribute("connectedUser");
-		
-		/**
-		 * Back-end check-up for more security
-		 */
-		if (newPassword.length() >= 8 && newPassword.length() <= 20) {
-			if (AppManager.getInstance().setUserPassword(connectedUser.getId_user(), newPassword)) {
-				// Log
-				myLogger.log(Level.INFO,
-						"User [" + connectedUser.getUsername() + "] password successfully modified to " + newPassword);
-				request.setAttribute("messageCallback", "New password has been updated!!");
-			} else {
-				// Log
-				myLogger.log(Level.INFO,
-						"User [" + connectedUser.getUsername() + "] password could not be modified to " + newPassword);
-				request.setAttribute("messageCallback", "Please enter a different password from the ones you already used.");
-			}
-		}
-
-		this.doGet(request, response);
 	}
 }

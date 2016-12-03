@@ -24,10 +24,6 @@ body {
 	margin: 20px;
 }
 
-#formPassword {
-	display: none;
-}
-
 #avatar {
 	max-width: 75px;
 	max-height: 75px;

@@ -11,12 +11,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
 
-@WebFilter({ "/home", "/administration", "/cercle", "/carre" })
+@WebFilter({ "/home", "/relogin", "/setPassword", "/administration", "/cercle", "/carre" })
 
-public class AuthentificationFilter implements Filter {
+public class AuthenticationFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -26,8 +27,10 @@ public class AuthentificationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-
-		User user = (User) httpRequest.getSession().getAttribute("connectedUser");
+		
+		HttpSession session = httpRequest.getSession();
+		
+		User user = (User) session.getAttribute("connectedUser");
 
 		if (user == null || "".equals(user)) {
 			System.err.println("[ERROR] - User is not connected!");

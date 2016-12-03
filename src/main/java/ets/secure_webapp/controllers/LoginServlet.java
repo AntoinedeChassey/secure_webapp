@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.LogConnection;
 import ets.secure_webapp.entities.User;
@@ -50,9 +51,13 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Send status to the LoginFilter
-		request.getSession().setAttribute("isLoginSuccess", false);
+		HttpSession session = request.getSession();
 
+		// Send status to the LoginFilter
+		session.setAttribute("isLoginSuccess", false);
+		// Setting reauthentication to false by default
+		session.setAttribute("isReAuthenticateSuccess", false);
+		
 		// init();
 
 		// Get user status from LoginFilter
@@ -62,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 		// Integer attemptsRemaining = (Integer)
 		// request.getSession().getAttribute("attemptsRemaining");
 
-		User user = (User) request.getSession().getAttribute("connectedUser");
+		User user = (User) session.getAttribute("connectedUser");
 
 		if (user == null || "".equals(user)) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/login.jsp");
@@ -72,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 				System.out.println(
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
 				System.out.println("[INFO] - Setting maxInactiveInterval: " + user.getRole().getMaxInactiveInterval());
-				request.getSession().setMaxInactiveInterval(user.getRole().getMaxInactiveInterval());
+				session.setMaxInactiveInterval(user.getRole().getMaxInactiveInterval());
 				response.sendRedirect("home");
 			} catch (Exception e) {
 				// e.printStackTrace();
@@ -84,6 +89,8 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
 
 		String usernameInput = request.getParameter("username");
 		String passwordInput = request.getParameter("password");
@@ -106,8 +113,8 @@ public class LoginServlet extends HttpServlet {
 																	// try
 																	// already
 			}
-			request.getSession().setAttribute("phase", currentPhase);
-			request.getSession().setAttribute("attemptsLeft", attemptsLeft);
+			session.setAttribute("phase", currentPhase);
+			session.setAttribute("attemptsLeft", attemptsLeft);
 
 			if ((timeWaited <= maxTimeForPhase1) && (currentPhase == 1)) {
 				Long waitTimeLeft = maxTimeForPhase1 - timeWaited;
@@ -116,19 +123,20 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 
+		@SuppressWarnings("unchecked")
 		Map<String, String> authorizedUsers = (Map<String, String>) request.getSession()
 				.getAttribute("authorizedUsers");
 		System.out.println(authorizedUsers);
 
 		// Get user status from LoginFilter
-		Integer phase = (Integer) request.getSession().getAttribute("phase");
-		Long waitTimeLeft = (Long) request.getSession().getAttribute("waitTimeLeft");
+		Integer phase = (Integer) session.getAttribute("phase");
+		Long waitTimeLeft = (Long) session.getAttribute("waitTimeLeft");
 		// Integer attemptsLeft = (Integer)
 		// request.getSession().getAttribute("attemptsLeft");
 
 		if (waitTimeLeft <= 0 && phase != 2) {
 			try {
-				if (authorizedUsers.containsKey(usernameInput)
+				if ( userInput != null && passwordInput != null && authorizedUsers.containsKey(usernameInput)
 						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
 
 					User user = AppManager.getInstance().getUserByUsername(usernameInput);
@@ -136,31 +144,31 @@ public class LoginServlet extends HttpServlet {
 					// Resetting connection logs and attributes
 					AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
 					AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 0);
-					request.getSession().setAttribute("phase", 0);
-					request.getSession().setAttribute("waitTimeLeft", 0L);
-					request.getSession().setAttribute("attemptsLeft", 100);
+					session.setAttribute("phase", 0);
+					session.setAttribute("waitTimeLeft", 0L);
+					session.setAttribute("attemptsLeft", 100);
 
 					// System.out.println("[INFO] - Saving user attributes to
 					// session...");
-					request.getSession().setAttribute("connectedUser", user);
+					session.setAttribute("connectedUser", user);
 					// System.out.println("ID en session: " +
 					// user.getId_user());
 					// Log info
-					myLogger.log(Level.INFO, "Successful authentification with USERNAME: " + usernameInput
+					myLogger.log(Level.INFO, "Successful authentication with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
 
 					// Send status to the LoginFilter
-					request.getSession().setAttribute("isLoginSuccess", true);
+					session.setAttribute("isLoginSuccess", true);
 
 				} else {
 					// Log
-					myLogger.log(Level.WARNING, "Unsuccessful authentification with USERNAME: " + usernameInput
+					myLogger.log(Level.WARNING, "Unsuccessful authentication with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
 					// Store the username to verify bruteforcing in the
 					// LoginFilter
-					request.getSession().setAttribute("usernameInput", usernameInput);
+					session.setAttribute("usernameInput", usernameInput);
 					// Send status to the LoginFilter
-					request.getSession().setAttribute("isLoginSuccess", false);
+					session.setAttribute("isLoginSuccess", false);
 
 				}
 			} catch (NoSuchAlgorithmException e) {

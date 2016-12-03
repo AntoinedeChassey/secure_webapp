@@ -26,7 +26,7 @@ public class MyLogger {
 					? filePath = "C:/Users/ANTOINE/Git/secure_webapp/src/main/resources/ServerLog.log" : filePath;
 			FileHandler fh = new FileHandler(osAppropriatePath, 16184, 1, true);
 			this.logger.addHandler(fh);
-			this.logger.setLevel(Level.OFF);
+			this.logger.setLevel(Level.ALL);
 
 			// Write the log the message
 			this.logger.log(level, msg);

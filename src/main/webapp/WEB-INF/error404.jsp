@@ -13,7 +13,7 @@
 	<br>
 	<br>
 	<br>
-	<h1 class="alert-danger text-center">Oups, this page is broken!</h1>
+	<h1 class="alert-danger text-center">Where are you going ?!</h1>
 	<img src="./img/404.jpg" alt="Page Not Found (404)."
 		style="position: absolute; left: 50%; top: 50%; margin-left: -285px; margin-top: -190px;">
 </body>

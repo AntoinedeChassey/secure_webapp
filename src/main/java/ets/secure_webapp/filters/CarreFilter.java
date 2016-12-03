@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
 
@@ -26,8 +27,11 @@ public class CarreFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		User user = (User) httpRequest.getSession().getAttribute("connectedUser");
+		HttpSession session = httpRequest.getSession();
 
+		User user = (User) session.getAttribute("connectedUser");
+
+		
 		if (!user.getRole().getName().equals("userCarre") && user.isAdmin() == false) {
 			System.err.println("[ERROR] - User is not userCarre!");
 			HttpServletResponse httpResponse = (HttpServletResponse) response;

@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.LogConnection;
 import ets.secure_webapp.entities.User;
@@ -59,22 +60,23 @@ public class LoginFilter implements Filter {
 
 		init();
 
+		HttpSession session = httpRequest.getSession();
+		
 		// Reset the usernameInput to avoid incrementation from memory
-		httpRequest.getSession().setAttribute("usernameInput", "");
+		session.setAttribute("usernameInput", "");
 
-		// Reset the authorizedUsers to take changes if a user tries to
-		// bruteforce
-		httpRequest.getSession().setAttribute("authorizedUsers", authorizedUsers);
+		// Reset the authorizedUsers to take changes
+		session.setAttribute("authorizedUsers", authorizedUsers);
 
 		// Setting attributes to show
-		httpRequest.getSession().setAttribute("phase", 0);
-		httpRequest.getSession().setAttribute("waitTimeLeft", 0L);
-		httpRequest.getSession().setAttribute("attemptsLeft", 0);
+		session.setAttribute("phase", 0);
+		session.setAttribute("waitTimeLeft", 0L);
+		session.setAttribute("attemptsLeft", 0);
 
 		// // Try to get the last usernameInput and check if user can be in the
 		// // authorizedUsers to connect
 		// String usernameInput = (String)
-		// httpRequest.getSession().getAttribute("usernameInput");
+		// session.getAttribute("usernameInput");
 		// User user =
 		// AppManager.getInstance().getUserByUsername(usernameInput);
 		// if (user != null) {
@@ -89,15 +91,15 @@ public class LoginFilter implements Filter {
 		// log.getDate().getTime());
 		// Integer attemptsLeft = maxAttempts - log.getAttempts();
 		//
-		// httpRequest.getSession().setAttribute("phase", currentPhase);
-		// httpRequest.getSession().setAttribute("attemptsLeft", attemptsLeft);
+		// session.setAttribute("phase", currentPhase);
+		// session.setAttribute("attemptsLeft", attemptsLeft);
 		//
 		// System.out.println("Filter - attempts in DB: " + log.getAttempts());
 		// System.out.println("Filter - attempts left: " + attemptsLeft);
 		//
 		// if ((timeWaited <= maxTimeForPhase1) && (currentPhase != 0)) {
 		// Long waitTimeLeft = maxTimeForPhase1 - timeWaited;
-		// httpRequest.getSession().setAttribute("waitTimeLeft", waitTimeLeft /
+		// session.setAttribute("waitTimeLeft", waitTimeLeft /
 		// 1000); // Setting
 		// // to
 		// // seconds
@@ -109,15 +111,15 @@ public class LoginFilter implements Filter {
 		// Do post servlet work here
 
 		// Retrieve doPost status
-		String usernameInput = (String) httpRequest.getSession().getAttribute("usernameInput");
-		boolean isLoginSuccess = (boolean) httpRequest.getSession().getAttribute("isLoginSuccess");
+		String usernameInput = (String) session.getAttribute("usernameInput");
+		boolean isLoginSuccess = (boolean) session.getAttribute("isLoginSuccess");
 
 		// System.out.println("FROM doPost: " + usernameInput + " & " +
 		// isLoginSuccess);
 
 		if (isLoginSuccess) {
 			// Reset the users attempts
-			User connectedUser = (User) httpRequest.getSession().getAttribute("connectedUser");
+			User connectedUser = (User) session.getAttribute("connectedUser");
 			if (connectedUser != null) {
 				System.out.println("LoginFilter: " + connectedUser.getUsername());
 				connectionAttempts.put(connectedUser.getUsername(), 0);
@@ -146,22 +148,23 @@ public class LoginFilter implements Filter {
 				// If username is passed from doPost store the usernames and the
 				// number of attempts
 				if (usernameInput != null && !"".equals(usernameInput)) {
-					// If the username is not already stored, store it and set
-					// attempts
-					// to 1
-					if (!connectionAttempts.containsKey(usernameInput)) {
-						connectionAttempts.put(usernameInput, 1);
-					} else {
-						// Else increment the attempts of the user
-						connectionAttempts.put(usernameInput, connectionAttempts.get(usernameInput) + 1);
-					}
-
-					// If the user attempts exceed the maxAttempts, process
-					// security
-					if (connectionAttempts.get(usernameInput) >= maxAttempts) {
-						authorizedUsers.remove(usernameInput);
-						System.out.println("HERE GOES SECURITY");
-					}
+//					// If the username is not already stored, store it and set
+//					// attempts
+//					// to 1
+//					if (!connectionAttempts.containsKey(usernameInput)) {
+//						connectionAttempts.put(usernameInput, 1);
+////						session.setAttribute("attemptsLeft", 1);
+//					} else {
+//						// Else increment the attempts of the user
+//						connectionAttempts.put(usernameInput, connectionAttempts.get(usernameInput) + 1);
+////						session.setAttribute("attemptsLeft", connectionAttempts.get(usernameInput) + 1);
+//					}
+//
+//					// If the user attempts exceed the maxAttempts, process
+//					// security
+//					if (connectionAttempts.get(usernameInput) >= maxAttempts) {
+//						authorizedUsers.remove(usernameInput);
+//					}
 				}
 				break;
 
@@ -171,10 +174,10 @@ public class LoginFilter implements Filter {
 				if (usernameInput != null && !"".equals(usernameInput)) {
 					// Increment the attempts of the user
 					connectionAttempts.put(usernameInput, connectionAttempts.get(usernameInput) + 1);
-					httpRequest.getSession().setAttribute("attemptsLeft", connectionAttempts.get(usernameInput) - 1);
+//					session.setAttribute("attemptsLeft", connectionAttempts.get(usernameInput) - 1);
 					AppManager.getInstance().incrementLogConnection(user.getId_user());
 				}
-
+				
 				// If the user attempts exceed the maxAttempts, process
 				// security
 				if (connectionAttempts.get(usernameInput) >= maxAttempts) {
@@ -188,7 +191,7 @@ public class LoginFilter implements Filter {
 					if (log.getPhase() == 0) {
 						AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 1);
 						AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
-						httpRequest.getSession().setAttribute("phase", 1);
+//						session.setAttribute("phase", 1);
 						connectionAttempts.put(usernameInput, 0);
 					}
 
@@ -196,20 +199,20 @@ public class LoginFilter implements Filter {
 					// reached maxAttempts again
 					if (log.getPhase() == 1) {
 						AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 2);
-						httpRequest.getSession().setAttribute("phase", 2);
+//						session.setAttribute("phase", 2);
 						authorizedUsers.remove(usernameInput);
 					}
 
 					// Bye bye
 					if (log.getPhase() == 2) {
-						httpRequest.getSession().setAttribute("phase", 2);
-						httpRequest.getSession().setAttribute("attemptsLeft", 0);
+//						session.setAttribute("phase", 2);
+//						session.setAttribute("attemptsLeft", 0);
 					}
 				}
 			}
 		}
 
-		// System.out.println(connectionAttempts);
+		System.out.println(connectionAttempts);
 	}
 
 	@Override

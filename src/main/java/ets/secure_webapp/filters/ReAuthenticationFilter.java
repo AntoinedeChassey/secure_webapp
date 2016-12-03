@@ -11,12 +11,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import ets.secure_webapp.entities.User;
+/**
+ * All paths below will be filtered and prompted for password
+ */
+@WebFilter({ "/setPassword" })
 
-@WebFilter({ "/home", "/administration", "/cercle", "/carre" })
+public class ReAuthenticationFilter implements Filter {
 
-public class ReAuthentificationFilter implements Filter {
+	private Boolean isReAuthenticateSuccess;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,21 +29,22 @@ public class ReAuthentificationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		User user = (User) httpRequest.getSession().getAttribute("connectedUser");
-
-		if (user != null && !"".equals(user)) {
-			// Check for time between passwords modified
-			if (1 == 2) {
-				httpRequest.getSession().removeAttribute("connectedUser");
-				HttpServletResponse httpResponse = (HttpServletResponse) response;
-				httpResponse.sendRedirect("login");
-				return;
-			}
+		HttpSession session = httpRequest.getSession();
+		
+		isReAuthenticateSuccess = (Boolean) session.getAttribute("isReAuthenticateSuccess");
+		if (!isReAuthenticateSuccess) {
+			System.out.println("reauthenticate");
+			httpResponse.sendRedirect("reauthenticate");
+			return;
 		}
 
+		// Before servlet
 		chain.doFilter(request, response);
+		// After servlet
 	}
 
 	@Override

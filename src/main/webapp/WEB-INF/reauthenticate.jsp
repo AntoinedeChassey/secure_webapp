@@ -12,7 +12,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Login</title>
+<title>Re-Login</title>
 
 <!-- Bootstrap CSS -->
 <link href="plugins/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="page-header">
-					Login <small>Secure Web Application <i>GTI-619</i></small>
+					Type your password again for security purpose <small>Secure Web Application <i>GTI-619</i></small>
 				</h1>
 			</div>
 		</div>
@@ -49,45 +49,19 @@
 				<div class="col-md-6 col-md-offset-3">
 
 					<div class="panel">
-						<h3>Log in</h3>
+						<h3>Password</h3>
 						<hr>
-						<c:if test="${waitTimeLeft > 0}">
-							<h5 class="text-danger" id="waitTimeLeft">${waitTimeLeft}</h5>
-						</c:if>
-						<c:if test="${attemptsLeft <= 5 && attemptsLeft > 0}">
-							<h5 class="text-danger">Number of attempts left
-								${attemptsLeft}</h5>
-						</c:if>
-						<c:if test="${phase == 2}">
-							<h5 class="text-danger">Your account has been locked. You
-								have to ask the admin to retrieve it.</h5>
-						</c:if>
-						<h4>Type in your information</h4>
+						<h4>Type in your current password</h4>
 						<form name="connexion" method="POST" role="form">
 							<fieldset>
-								<div class="form-group">
-									<input class="form-control" placeholder="Username"
-										name="username" type="email" autofocus required>
-								</div>
 								<div class="form-group">
 									<input class="form-control" placeholder="Password"
 										name="password" type="password" required>
 								</div>
-								<div class="form-group">
-									<div class="checkbox checkbox-success">
-										<input id="rememberMe" class="styled" type="checkbox"
-											name="rememberMe"> <label for="rememberMe">Remember
-											me</label>
-									</div>
-								</div>
 								<div class="col-md-6 col-md-offset-3">
-									<button type="submit" class="btn btn-lg btn-success btn-block ">Go!</button>
+									<button type="submit" class="btn btn-lg btn-success btn-block ">Submit</button>
 								</div>
 								<br>
-								<div class="small pull-right">
-									<label><a href="#" onClick="forgotPassword()">Lost
-											password ?</a></label>
-								</div>
 							</fieldset>
 						</form>
 					</div>

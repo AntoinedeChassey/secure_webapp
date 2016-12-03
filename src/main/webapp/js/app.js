@@ -18,28 +18,31 @@ function cercle() {
 	window.location.href = "cercle";
 }
 
-var isShown = false;
 function setPassword() {
-	if (isShown) {
-		$('#formPassword').hide();
-		isShown = false;
-	} else {
-		promptForPassword();
-		isShown = true;
-	}
-}
-
-function promptForPassword() {
-	$('#formPassword').show();
+	window.location.href = "setPassword";
 }
 
 function validatePassword() {
 	var newPassword = $('input[name=newPassword]').val();
 	var confirmNewPassword = $('input[name=confirmNewPassword]').val();
+	var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-";
+
+	var checkSpecialChar = function(string) {
+		for (i = 0; i < specialChars.length; i++) {
+			if (string.indexOf(specialChars[i]) > -1) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	if (newPassword != confirmNewPassword) {
-		toastr.error("The passwords must match!");
+		return toastr.error("The passwords must match!");
 	} else {
-		if (newPassword.length <= 7) {
+		if (newPassword.length == 0) {
+			console.log("null");
+			return toastr.error("The passwords need to be filled!");
+		} else if (newPassword.length <= 7) {
 			console.log("too_short");
 			return toastr.error("The passwords are too short!");
 		} else if (newPassword.length >= 20) {
@@ -48,18 +51,25 @@ function validatePassword() {
 		} else if (newPassword.search(/\d/) == -1) {
 			console.log("no_num");
 			return toastr.error("The passwords must contain a number!");
-		} else if (newPassword.search(/[a-zA-Z]/) == -1) {
-			console.log("no_letter");
-			return toastr.error("The passwords must contain a letter!");
-		} else if (newPassword.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-			console.log("bad_char");
-			return toastr.error("The passwords contain bad characters!");
+		} else if (newPassword.search(/[A-Z]/) == -1) {
+			console.log("no_upper_letter");
+			return toastr
+					.error("The passwords must contain an upper case letter!");
+		} else if (newPassword.search(/[a-z]/) == -1) {
+			console.log("no_lower_letter");
+			return toastr
+					.error("The passwords must contain a lower case letter!");
+		} else if (!checkSpecialChar(newPassword)) {
+			console.log("no_special_char");
+			return toastr
+					.error("The passwords must contain a special character!");
 		}
-		toastr.options.onHidden = function() {
-			$('#formPassword').submit();
-		}
-		toastr.options.timeOut = 1000;
-		return "ok";
+		// toastr.options.onHidden = function() {
+		// $('#formPassword').submit();
+		// }
+		// toastr.options.timeOut = 1000;
+		$('#formPassword').submit();
+		console.log("Good input");
 	}
 }
 
