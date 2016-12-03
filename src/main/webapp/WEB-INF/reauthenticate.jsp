@@ -36,7 +36,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="page-header">
-					Type your password again for security purpose <small>Secure Web Application <i>GTI-619</i></small>
+					Security check <small>Secure Web Application <i>GTI-619</i></small>
 				</h1>
 			</div>
 		</div>
