@@ -100,8 +100,9 @@ public class UserDaoImpl implements UserDao {
 		List<LogPassword> logs = new ArrayList<>();
 		try {
 			Connection connection = getConnection();
+			// LIMIT 3 -> Checks if user input a different password within the 3 last ones
 			PreparedStatement stmt = connection
-					.prepareStatement("SELECT * FROM log_password WHERE id_user=? ORDER BY date DESC LIMIT 10");
+					.prepareStatement("SELECT * FROM log_password WHERE id_user=? ORDER BY date DESC LIMIT 3");
 			stmt.setInt(1, id_user);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
