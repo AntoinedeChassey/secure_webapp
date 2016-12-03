@@ -66,12 +66,15 @@ function validatePassword_newUser() {
 
 function validateString(str) {
 	if (str.length > 0 && str.length <= 10) {
-		if (/[^a-z]/i.test(str))
-			return toastr.error("Please type letters only!");
-		else
+		// regexp /[^a-z\s]/i
+		var regex = /^[a-zA-Z\s]+$/;
+		if (regex.test(str))
 			return true;
+		else
+			return toastr.error("Please type letters only!");
 	} else {
-		return toastr.error("Please fill the fields.");
+		return toastr
+				.error("Please fill the fields and respect the maximum characters allowed.");
 	}
 }
 

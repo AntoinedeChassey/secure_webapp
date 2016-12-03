@@ -76,6 +76,7 @@ public class LoginServlet extends HttpServlet {
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
 				System.out.println("[INFO] - Setting maxInactiveInterval: " + user.getRole().getMaxInactiveInterval());
 				session.setMaxInactiveInterval(user.getRole().getMaxInactiveInterval());
+				session.setAttribute("messageCallback", "Welcome back " + user.getName() + "!");
 				response.sendRedirect("home");
 			} catch (Exception e) {
 				// e.printStackTrace();

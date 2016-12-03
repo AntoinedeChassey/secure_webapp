@@ -17,15 +17,11 @@ public class HomeServlet extends GenericServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		super.doGet(request, response);
-		
-		HttpSession session = request.getSession();	
-		
-		// Reseting attribute for filter to be activated
-		session.setAttribute("isReAuthenticateSuccess", false);
-		
-		session.removeAttribute("messageCallback");
 
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/index.jsp");
 		view.forward(request, response);
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("messageCallback");
 	}
 }

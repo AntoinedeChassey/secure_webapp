@@ -30,11 +30,7 @@ public class AddUserServlet extends GenericServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		super.doGet(request, response);
-
 		HttpSession session = request.getSession();
-
-		// Reseting attribute for filter to be activated
-		session.setAttribute("isReAuthenticateSuccess", false);
 
 		List<Role> roles = AppManager.getInstance().getRoles();
 		session.setAttribute("roles", roles);
@@ -72,20 +68,22 @@ public class AddUserServlet extends GenericServlet {
 				// Log
 				myLogger.log(Level.INFO, "New user added successfully.");
 				session.setAttribute("messageCallback", "New user has been successfully added!");
+				// Removing attribute to activate filter again
+				session.setAttribute("isReAuthenticateSuccess", false);
+				response.sendRedirect("home");
 			} else {
 				// Log
-				myLogger.log(Level.INFO, "New user could not be added");
+				myLogger.log(Level.INFO, "New user could not be added, probably already exists!");
 				session.setAttribute("messageCallback",
 						"There has been an error while trying to add a new user, double check he does not already exist.");
+				this.doGet(request, response);
 			}
 		} else {
 			// Log
-			session.setAttribute("messageCallback",
-					"There has been an error while trying to add a new user.");
 			myLogger.log(Level.SEVERE, "New user could not be added because of bad inputs!");
+			session.setAttribute("messageCallback", "There has been an error while trying to add a new user.");
+			this.doGet(request, response);
 		}
-		this.doGet(request, response);
-		// response.sendRedirect("home");
 	}
 
 	private boolean isIntegerValid(String id_role) {
@@ -96,7 +94,7 @@ public class AddUserServlet extends GenericServlet {
 	}
 
 	private boolean isStringValid(String str) {
-		String regex = "^[a-zA-Z]+$";
+		String regex = "^[a-zA-Z\\s]+$";
 		if (str.matches(regex) && str.length() <= 10)
 			return true;
 		else

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * All paths below will be filtered and prompted for password
  */
-@WebFilter({ "/setPassword" })
+@WebFilter({ "/setPassword", "/addUser" })
 
 public class ReAuthenticationFilter implements Filter {
 
@@ -31,12 +31,13 @@ public class ReAuthenticationFilter implements Filter {
 			throws IOException, ServletException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		HttpSession session = httpRequest.getSession();
 
 		isReAuthenticateSuccess = (Boolean) session.getAttribute("isReAuthenticateSuccess");
 		if (!isReAuthenticateSuccess) {
+			System.err.println("[ERROR] - User is not re-authenticate!");
+			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			httpResponse.sendRedirect("reauthenticate");
 			return;
 		}

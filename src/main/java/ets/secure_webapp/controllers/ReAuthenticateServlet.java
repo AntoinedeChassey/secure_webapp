@@ -33,10 +33,16 @@ public class ReAuthenticateServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/reauthenticate.jsp");
-		view.forward(request, response);
-
+		HttpSession session = request.getSession();
+				
+		Boolean isReAuthenticateSuccess = (Boolean) session.getAttribute("isReAuthenticateSuccess");
+		
+		if (isReAuthenticateSuccess == null || isReAuthenticateSuccess == false) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/reauthenticate.jsp");
+			view.forward(request, response);
+		} else {
+			response.sendRedirect("home");
+		}
 	}
 
 	@Override
@@ -56,10 +62,14 @@ public class ReAuthenticateServlet extends HttpServlet {
 			if (PasswordEncryption.validatePassword(passwordInput, user.getPassword())) {
 				session.setAttribute("isReAuthenticateSuccess", true);
 				myLogger.log(Level.INFO, "Reauhtication success for user: " + user.getUsername());
-				response.sendRedirect("setPassword");
+				session.setAttribute("messageCallback",
+						"You are now authorized to proceed.");
+				this.doGet(request, response);
 			} else {
 				session.setAttribute("isReAuthenticateSuccess", false);
 				myLogger.log(Level.INFO, "Reauhtication failed for user: " + user.getUsername());
+				session.setAttribute("messageCallback",
+						"You are not authorized to proceed.");
 				this.doGet(request, response);
 			}
 		} catch (NoSuchAlgorithmException e) {

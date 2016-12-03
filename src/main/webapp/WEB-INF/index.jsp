@@ -100,6 +100,7 @@
 
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>
+	<script src="js/notification.js"></script>
 
 </body>
 

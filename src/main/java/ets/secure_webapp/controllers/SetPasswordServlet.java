@@ -47,16 +47,24 @@ public class SetPasswordServlet extends GenericServlet {
 				myLogger.log(Level.INFO,
 						"User [" + connectedUser.getUsername() + "] password successfully set to " + newPassword);
 				session.setAttribute("messageCallback", "New password has been successfully set!");
+				// Removing attribute to activate filter again
+				session.setAttribute("isReAuthenticateSuccess", false);
+				response.sendRedirect("home");
 			} else {
 				// Log
 				myLogger.log(Level.INFO,
 						"User [" + connectedUser.getUsername() + "] password could not be set to " + newPassword);
 				session.setAttribute("messageCallback",
 						"Please enter a different password from the ones you already used.");
+				this.doGet(request, response);
 			}
+		} else {
+			// Log
+			myLogger.log(Level.SEVERE,
+					"User [" + connectedUser.getUsername() + "] password could not be validated to " + newPassword);
+			session.setAttribute("messageCallback", "Please enter a valid password.");
+			this.doGet(request, response);
 		}
-		this.doGet(request, response);
-		// response.sendRedirect("home");
 	}
 
 	public boolean isPasswordValid(String newPassword) {

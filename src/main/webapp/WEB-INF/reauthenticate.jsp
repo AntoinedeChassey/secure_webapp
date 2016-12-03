@@ -12,15 +12,15 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Re-Login</title>
+<title>Re-Authenticate</title>
 
 <!-- Bootstrap CSS -->
 <link href="plugins/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="plugins/css/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet">
-<!-- Checkbox -->
-<link href="plugins/css/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<!-- Toastr -->
+<link href="plugins/css/toastr.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/app.css" rel="stylesheet">
@@ -41,6 +41,9 @@
 			</div>
 		</div>
 		<!-- /.row -->
+
+		<!-- Notifications -->
+		<div id="messageCallback" hidden=true>${messageCallback}</div>
 
 		<!-- Projects Row -->
 		<div class="row">
@@ -92,6 +95,11 @@
 	<script src="plugins/js/jquery-2.2.4.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="plugins/js/bootstrap.min.js"></script>
+	<!-- Toastr JS -->
+	<script src="plugins/js/toastr.min.js"></script>
+
+	<!-- Custom JS -->
+	<script src="js/notification.js"></script>
 </body>
 
 </html>
