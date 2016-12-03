@@ -77,7 +77,7 @@
 						<div class="form-group">
 							<label class="col-xs-3 control-label"></label>
 							<div class="col-xs-5">
-								<button type="button" class="btn btn-success center-block"
+								<button type="submit" class="btn btn-success center-block"
 									onclick="validatePassword()">Submit</button>
 							</div>
 						</div>
@@ -117,6 +117,7 @@
 
 	<!-- Custom JS -->
 	<script src="js/app.js"></script>
+	<script src="js/notification.js"></script>
 </body>
 
 </html>

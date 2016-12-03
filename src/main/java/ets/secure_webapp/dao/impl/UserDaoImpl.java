@@ -250,4 +250,31 @@ public class UserDaoImpl implements UserDao {
 		}
 		return true;
 	}
+
+	@Override
+	public User getUserById(Integer id_user) {
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM user WHERE id_user=?");
+			stmt.setInt(1, id_user);
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User(rs.getInt("id_user"), null, rs.getString("username"), rs.getString("password"),
+						rs.getString("surname"), rs.getString("name"), rs.getString("avatar"), rs.getString("country"),
+						rs.getTimestamp("date"));
+				Integer id_role = rs.getInt("id_role");
+				
+				Role role = AppManager.getInstance().getRoleById(id_role);
+				user.setRole(role);
+				connection.close();
+				// Log
+				myLogger.log(Level.INFO, "getUserById - " + user.getUsername());
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

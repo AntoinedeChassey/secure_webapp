@@ -24,7 +24,7 @@ public class SetPasswordServlet extends GenericServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		super.doGet(request, response);
-
+		
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/setPassword.jsp");
 		view.forward(request, response);
 	}
@@ -34,7 +34,7 @@ public class SetPasswordServlet extends GenericServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		System.out.println("in do post set password");
+
 		String newPassword = request.getParameter("newPassword");
 		User connectedUser = (User) session.getAttribute("connectedUser");
 
@@ -45,18 +45,18 @@ public class SetPasswordServlet extends GenericServlet {
 			if (AppManager.getInstance().setUserPassword(connectedUser.getId_user(), newPassword)) {
 				// Log
 				myLogger.log(Level.INFO,
-						"User [" + connectedUser.getUsername() + "] password successfully modified to " + newPassword);
-				session.setAttribute("messageCallback", "New password has been updated!!");
+						"User [" + connectedUser.getUsername() + "] password successfully set to " + newPassword);
+				session.setAttribute("messageCallback", "New password has been successfully set!");
 			} else {
 				// Log
 				myLogger.log(Level.INFO,
-						"User [" + connectedUser.getUsername() + "] password could not be modified to " + newPassword);
+						"User [" + connectedUser.getUsername() + "] password could not be set to " + newPassword);
 				session.setAttribute("messageCallback",
 						"Please enter a different password from the ones you already used.");
 			}
 		}
-		session.setAttribute("isReAuthenticateSuccess", false);
-		response.sendRedirect("home");
+		this.doGet(request, response);
+		// response.sendRedirect("home");
 	}
 
 	public boolean isPasswordValid(String newPassword) {

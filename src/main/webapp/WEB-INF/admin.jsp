@@ -62,7 +62,6 @@
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>id_user</th>
 										<th>Role</th>
 										<th>Username</th>
 										<th>Password</th>
@@ -78,7 +77,6 @@
 									<c:forEach var="user" items="${users}" varStatus="loop">
 										<tr>
 											<td>${loop.index+1}</td>
-											<td class="id_user">${user.id_user}</td>
 											<td><select class="roleName form-control">
 													<c:forEach var="role" items="${roles}">
 														<option class="text-danger">${role.name}</option>
@@ -101,7 +99,7 @@
 					</div>
 				</div>
 				<!-- /.panel -->
-
+	
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -141,7 +139,53 @@
 				</div>
 				<!-- /.panel -->
 
-
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Blocked users</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Role</th>
+										<th>Username</th>
+										<th>Password</th>
+										<th>Surname</th>
+										<th>Name</th>
+										<th>Avatar</th>
+										<th>Country</th>
+										<th>Date</th>
+										<th>Options</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="user" items="${users}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td><select class="roleName form-control">
+													<c:forEach var="role" items="${roles}">
+														<option class="text-danger">${role.name}</option>
+													</c:forEach>
+											</select></td>
+											<td class="username text-success">${user.username}</td>
+											<td class="password">********</td>
+											<td class="surname">${user.surname}</td>
+											<td class="name">${user.name}</td>
+											<td class="avatar">${user.avatar}</td>
+											<td class="country">${user.country}</td>
+											<td class="date">${user.date}</td>
+											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel -->
 
 			</div>
 			<!-- /.col-md-12 -->

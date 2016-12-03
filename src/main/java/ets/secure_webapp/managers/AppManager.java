@@ -47,6 +47,10 @@ public class AppManager {
 	public boolean addUser(User newUser) {
 		return userDao.addUser(newUser);
 	}
+	
+	public User getUserById(Integer id_user) {
+		return userDao.getUserById(id_user);
+	}
 
 	// Security methods
 	public List<LogConnection> getLogConnections() {

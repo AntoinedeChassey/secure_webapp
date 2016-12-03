@@ -37,7 +37,6 @@ public class ReAuthenticationFilter implements Filter {
 		
 		isReAuthenticateSuccess = (Boolean) session.getAttribute("isReAuthenticateSuccess");
 		if (!isReAuthenticateSuccess) {
-			System.out.println("reauthenticate");
 			httpResponse.sendRedirect("reauthenticate");
 			return;
 		}

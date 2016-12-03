@@ -65,11 +65,11 @@ public class SendMail {
 
 		// values from the user.
 
-		final String username = "testchouettevision@gmail.com";
+		final String username = "test@gmail.com";
 
 		final String password = "testpass";
 
-		final String fromEmailAddress = "testchouettevision@gmail.com";
+		final String fromEmailAddress = "test@gmail.com";
 
 		// Create a Session object based on the properties and
 

@@ -3,6 +3,7 @@ package ets.secure_webapp.controllers;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.logging.Level;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.User;
+import ets.secure_webapp.managers.AppManager;
 import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
 
@@ -32,8 +34,6 @@ public class ReAuthenticateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/reauthenticate.jsp");
 		view.forward(request, response);
 
@@ -46,15 +46,20 @@ public class ReAuthenticateServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		User user = (User) session.getAttribute("connectedUser");
+		// Refreshing user with latest password (if he possibly changed it)
+		user = AppManager.getInstance().getUserById(user.getId_user());
+		session.setAttribute("connectedUser", user);
 
 		String passwordInput = request.getParameter("password");
 
 		try {
 			if (PasswordEncryption.validatePassword(passwordInput, user.getPassword())) {
 				session.setAttribute("isReAuthenticateSuccess", true);
+				myLogger.log(Level.INFO, "Reauhtication success for user: " + user.getUsername());
 				response.sendRedirect("setPassword");
 			} else {
 				session.setAttribute("isReAuthenticateSuccess", false);
+				myLogger.log(Level.INFO, "Reauhtication failed for user: " + user.getUsername());
 				this.doGet(request, response);
 			}
 		} catch (NoSuchAlgorithmException e) {

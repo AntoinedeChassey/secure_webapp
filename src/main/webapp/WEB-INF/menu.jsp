@@ -28,3 +28,6 @@
 		</button>
 	</c:if>
 </div>
+
+<!-- Notifications -->
+<div id="messageCallback" hidden=true>${messageCallback}</div>
