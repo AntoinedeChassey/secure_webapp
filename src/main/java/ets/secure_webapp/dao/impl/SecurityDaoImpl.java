@@ -1,5 +1,7 @@
 package ets.secure_webapp.dao.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.mysql.jdbc.Statement;
+
 import ets.secure_webapp.dao.SecurityDao;
+import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.User;
 import ets.secure_webapp.utils.MyLogger;
+import ets.secure_webapp.utils.PasswordEncryption;
 
 public class SecurityDaoImpl implements SecurityDao {
 
@@ -111,5 +118,56 @@ public class SecurityDaoImpl implements SecurityDao {
 		// Log
 		myLogger.log(Level.INFO, "getConnectionLogs");
 		return logConnections;
+	}
+
+	@Override
+	public boolean addBan(Ban newBan) {
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM ban WHERE ip=?");
+			stmt.setString(1, newBan.getIp());
+
+			ResultSet rs = stmt.executeQuery();
+			if (!rs.next()) {
+				try {
+					PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO ban(ip, date) VALUES(?,?)",
+							Statement.RETURN_GENERATED_KEYS);
+					stmt2.setString(1, newBan.getIp());
+					stmt2.setTimestamp(2, newBan.getDate());
+					stmt2.executeUpdate();
+					connection.close();
+					return true;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				System.err.println("Ban already exists for this IP: " + newBan.getIp());
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		myLogger.log(Level.SEVERE, "addBan : could not create new ban");
+		return false;
+	}
+
+	@Override
+	public List<Ban> getBans() {
+		List<Ban> bans = new ArrayList<>();
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM ban ORDER BY date DESC");
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Ban ban = new Ban(rs.getInt("id_ban"), rs.getString("ip"), rs.getTimestamp("date"));
+				bans.add(ban);
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// Log
+		myLogger.log(Level.INFO, "getBans");
+		return bans;
 	}
 }
