@@ -7,6 +7,10 @@
 		<welcome-file>home</welcome-file>
 	</welcome-file-list>
 
+	<!-- HTTPS security <security-constraint> <web-resource-collection> <web-resource-name>secure_webapp</web-resource-name> 
+		<url-pattern>/*</url-pattern> </web-resource-collection> <user-data-constraint> 
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee> </user-data-constraint> 
+		</security-constraint> -->
 	<error-page>
 		<location>/WEB-INF/error404.jsp</location>
 	</error-page>
