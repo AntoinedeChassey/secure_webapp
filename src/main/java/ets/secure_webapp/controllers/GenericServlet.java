@@ -18,6 +18,7 @@ public abstract class GenericServlet extends HttpServlet {
 	 * This method is used to get the connected user and use its data on client
 	 * side. This Servlet extends HttpServlet so any page can heritate from it.
 	 */
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

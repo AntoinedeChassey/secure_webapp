@@ -63,6 +63,7 @@
 									<tr>
 										<th>#</th>
 										<th>Role</th>
+										<th>Id_user</th>
 										<th>Username</th>
 										<th>Surname</th>
 										<th>Name</th>
@@ -81,6 +82,7 @@
 														<option class="text-danger" value="${role.id_role}">${role.name}</option>
 													</c:forEach>
 											</select></td>
+											<td class="id_user">${user.id_user}</td>
 											<td class="username text-success">${user.username}</td>
 											<td class="surname">${user.surname}</td>
 											<td class="name">${user.name}</td>
@@ -171,6 +173,76 @@
 												class="avatarTable img-responsive" src="${user.avatar}"
 												alt="Profile"></td>
 											<td class="country">${user.country}</td>
+											<td class="date">${user.date}</td>
+											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel -->
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">IP Bans</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>IP</th>
+										<th>Date</th>
+										<th>Options</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="ban" items="${bans}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td class="ip">${ban.ip}</td>
+											<td class="date">${ban.date}</td>
+											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- /.panel -->
+
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">User connections log</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Id_user</th>
+										<th>Phase</th>
+										<th>Attempts</th>
+										<th>Date</th>
+										<th>Options</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="log" items="${logsConnection}" varStatus="loop">
+										<tr>
+											<td>${loop.index+1}</td>
+											<td class="id_user">${log.id_user}</td>
+											<td class="phase">${log.phase}</td>
+											<td class="attempts">${log.attempts}</td>
 											<td class="date">${user.date}</td>
 											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
 												class="deleteUser fa fa-trash fa-lg"></i></td>

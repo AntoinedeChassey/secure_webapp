@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.entities.User;
-import ets.secure_webapp.filters.IPFilter;
 import ets.secure_webapp.managers.AppManager;
 import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
@@ -73,6 +73,7 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/login.jsp");
 			view.forward(request, response);
 		} else {
+			// Success login
 			try {
 				System.out.println(
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
@@ -95,10 +96,10 @@ public class LoginServlet extends HttpServlet {
 
 		String usernameInput = request.getParameter("username");
 		String passwordInput = request.getParameter("password");
-		
+
 		// Bruteforce IPFilter
-		session.setAttribute("lastPost", System.currentTimeMillis());		
-		
+		session.setAttribute("lastPost", System.currentTimeMillis());
+
 		// Get reCAPTCHA request param
 		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 		System.out.println(gRecaptchaResponse);

@@ -1,7 +1,5 @@
 package ets.secure_webapp.dao.impl;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +14,8 @@ import com.mysql.jdbc.Statement;
 import ets.secure_webapp.dao.SecurityDao;
 import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
-import ets.secure_webapp.entities.User;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.utils.MyLogger;
-import ets.secure_webapp.utils.PasswordEncryption;
 
 public class SecurityDaoImpl implements SecurityDao {
 
@@ -116,7 +113,7 @@ public class SecurityDaoImpl implements SecurityDao {
 			e.printStackTrace();
 		}
 		// Log
-		myLogger.log(Level.INFO, "getConnectionLogs");
+		myLogger.log(Level.INFO, "getLogConnections");
 		return logConnections;
 	}
 
@@ -169,5 +166,23 @@ public class SecurityDaoImpl implements SecurityDao {
 		// Log
 		myLogger.log(Level.INFO, "getBans");
 		return bans;
+	}
+
+	@Override
+	public LogPassword getPasswordLogByUserId(Integer id_user) {
+		LogPassword log = null;
+		try {
+			Connection connection = getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM log_password WHERE id_user=? ORDER BY date DESC LIMIT 1");
+			stmt.setInt(1, id_user);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				log = new LogPassword(rs.getInt("id_log_password"), rs.getInt("id_user"), rs.getString("password"),
+						rs.getTimestamp("date"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return log;
 	}
 }

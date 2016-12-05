@@ -10,6 +10,7 @@ import ets.secure_webapp.dao.impl.SecurityDaoImpl;
 import ets.secure_webapp.dao.impl.UserDaoImpl;
 import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
 
@@ -80,6 +81,10 @@ public class AppManager {
 	
 	public boolean addBan(Ban newBan) {
 		return securityDao.addBan(newBan);
+	}
+	
+	public LogPassword getPasswordLogByUserId(Integer id_user) {
+		return securityDao.getPasswordLogByUserId(id_user);
 	}
 
 	// Role methods

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.LogPassword;
 
 public interface SecurityDao {
 	
@@ -20,4 +21,6 @@ public interface SecurityDao {
 	public boolean addBan(Ban newBan);
 
 	public List<Ban> getBans();
+
+	public LogPassword getPasswordLogByUserId(Integer id_user);
 }
