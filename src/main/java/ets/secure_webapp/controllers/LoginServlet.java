@@ -33,14 +33,14 @@ public class LoginServlet extends HttpServlet {
 	public void init() throws ServletException {
 
 		// // Database init
-		// User admin = new User(null, null, "admin@test.com", "admin", "Best",
-		// "Admin", "./img/users/test.png", "Canada",
+		// User admin = new User(null, null, "admin@test.com", "Admin@10",
+		// "Best", "Admin", "./img/users/test.png", "Canada",
 		// null);
-		// User userCarre = new User(null, null, "usercarre@test.com", "user",
-		// "Carre", "User", "./img/users/profile.png",
+		// User userCarre = new User(null, null, "usercarre@test.com",
+		// "User@100", "Carre", "User", "./img/users/profile.png",
 		// "Canada", null);
-		// User userCercle = new User(null, null, "usercercle@test.com", "user",
-		// "Cercle", "Cercle",
+		// User userCercle = new User(null, null, "usercercle@test.com",
+		// "User@100", "Cercle", "Cercle",
 		// "./img/users/profile.png", "France", null);
 		//
 		// AppManager.getInstance().addUser(admin, 1);

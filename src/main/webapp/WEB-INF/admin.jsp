@@ -198,7 +198,7 @@
 										<th>#</th>
 										<th>IP</th>
 										<th>Date</th>
-										<th>Options</th>
+										<!-- <th>Options</th>-->
 									</tr>
 								</thead>
 								<tbody>
@@ -207,8 +207,8 @@
 											<td>${loop.index+1}</td>
 											<td class="ip">${ban.ip}</td>
 											<td class="date">${ban.date}</td>
-											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
-												class="deleteUser fa fa-trash fa-lg"></i></td>
+											<!-- <td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td> -->
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -233,7 +233,7 @@
 										<th>Phase</th>
 										<th>Attempts</th>
 										<th>Date</th>
-										<th>Options</th>
+										<!-- <th>Options</th>-->
 									</tr>
 								</thead>
 								<tbody>
@@ -244,8 +244,8 @@
 											<td class="phase">${log.phase}</td>
 											<td class="attempts">${log.attempts}</td>
 											<td class="date">${user.date}</td>
-											<td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
-												class="deleteUser fa fa-trash fa-lg"></i></td>
+											<!-- <td><i class="updateUser fa fa-wrench fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i
+												class="deleteUser fa fa-trash fa-lg"></i></td> -->
 										</tr>
 									</c:forEach>
 								</tbody>

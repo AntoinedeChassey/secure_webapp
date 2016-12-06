@@ -26,7 +26,6 @@ import ets.secure_webapp.utils.MyLogger;
 
 public class IPFilter implements Filter {
 
-	private FilterConfig config;
 	private MyLogger myLogger = new MyLogger(LoginServlet.class.getName());
 	private List<Ban> IPs = new ArrayList<>();
 
@@ -34,7 +33,6 @@ public class IPFilter implements Filter {
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		this.config = filterConfig;
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
