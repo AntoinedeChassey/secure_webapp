@@ -8,7 +8,9 @@ import ets.secure_webapp.dao.UserDao;
 import ets.secure_webapp.dao.impl.RoleDaoImpl;
 import ets.secure_webapp.dao.impl.SecurityDaoImpl;
 import ets.secure_webapp.dao.impl.UserDaoImpl;
+import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
 
@@ -71,6 +73,18 @@ public class AppManager {
 
 	public boolean setLogConnectionPhase(Integer id_user, Integer phase) {
 		return securityDao.setLogConnectionPhase(id_user, phase);
+	}
+	
+	public List<Ban> getBans() {
+		return securityDao.getBans();
+	}
+	
+	public boolean addBan(Ban newBan) {
+		return securityDao.addBan(newBan);
+	}
+	
+	public LogPassword getPasswordLogByUserId(Integer id_user) {
+		return securityDao.getPasswordLogByUserId(id_user);
 	}
 
 	// Role methods

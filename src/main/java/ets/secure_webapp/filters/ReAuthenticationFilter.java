@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * All paths below will be filtered and prompted for password
  */
-@WebFilter({ "/setPassword", "/addUser" })
+@WebFilter({ "/administration", "/setPassword", "/addUser" })
 
 public class ReAuthenticationFilter implements Filter {
 

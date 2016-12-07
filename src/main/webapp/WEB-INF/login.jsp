@@ -25,6 +25,10 @@
 <!-- Custom CSS -->
 <link href="css/app.css" rel="stylesheet">
 
+<!--  ReCaptcha -->
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+
 </head>
 
 <body>
@@ -52,11 +56,11 @@
 						<h3>Log in</h3>
 						<hr>
 						<c:if test="${waitTimeLeft > 0}">
-							<h5 class="text-danger" id="waitTimeLeft">${waitTimeLeft}</h5>
+							<h5 class="text-warning strong" id="waitTimeLeft">${waitTimeLeft}</h5>
 						</c:if>
 						<c:if test="${attemptsLeft <= 5 && attemptsLeft > 0}">
 							<h5 class="text-danger">Number of attempts left
-								${attemptsLeft}</h5>
+								<b>${attemptsLeft}</b></h5>
 						</c:if>
 						<c:if test="${phase == 2}">
 							<h5 class="text-danger">Your account has been locked. You
@@ -73,6 +77,7 @@
 									<input class="form-control" placeholder="Password"
 										name="password" type="password" required>
 								</div>
+								<!--
 								<div class="form-group">
 									<div class="checkbox checkbox-success">
 										<input id="rememberMe" class="styled" type="checkbox"
@@ -80,6 +85,14 @@
 											me</label>
 									</div>
 								</div>
+								-->
+								<c:if test="${phase == 1}">
+									<br>
+									<div class="g-recaptcha"
+										data-sitekey="6LcMxw0UAAAAAJq3dzZThiJKZ2asK4JBlo_EdBlN"></div>
+									<br>
+								</c:if>
+
 								<div class="col-md-6 col-md-offset-3">
 									<button type="submit" class="btn btn-lg btn-success btn-block ">Go!</button>
 								</div>

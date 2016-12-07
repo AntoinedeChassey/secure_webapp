@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.LogConnection;
@@ -57,11 +58,12 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
 		init();
 
 		HttpSession session = httpRequest.getSession();
-		
+
 		// Reset the usernameInput to avoid incrementation from memory
 		session.setAttribute("usernameInput", "");
 
@@ -71,8 +73,8 @@ public class LoginFilter implements Filter {
 		// Setting attributes to show
 		session.setAttribute("phase", 0);
 		session.setAttribute("waitTimeLeft", 0L);
-		session.setAttribute("attemptsLeft", 0);
-
+		session.setAttribute("attemptsLeft", 0);		
+				
 		// // Try to get the last usernameInput and check if user can be in the
 		// // authorizedUsers to connect
 		// String usernameInput = (String)
@@ -148,23 +150,27 @@ public class LoginFilter implements Filter {
 				// If username is passed from doPost store the usernames and the
 				// number of attempts
 				if (usernameInput != null && !"".equals(usernameInput)) {
-//					// If the username is not already stored, store it and set
-//					// attempts
-//					// to 1
-//					if (!connectionAttempts.containsKey(usernameInput)) {
-//						connectionAttempts.put(usernameInput, 1);
-////						session.setAttribute("attemptsLeft", 1);
-//					} else {
-//						// Else increment the attempts of the user
-//						connectionAttempts.put(usernameInput, connectionAttempts.get(usernameInput) + 1);
-////						session.setAttribute("attemptsLeft", connectionAttempts.get(usernameInput) + 1);
-//					}
-//
-//					// If the user attempts exceed the maxAttempts, process
-//					// security
-//					if (connectionAttempts.get(usernameInput) >= maxAttempts) {
-//						authorizedUsers.remove(usernameInput);
-//					}
+					// // If the username is not already stored, store it and
+					// set
+					// // attempts
+					// // to 1
+					// if (!connectionAttempts.containsKey(usernameInput)) {
+					// connectionAttempts.put(usernameInput, 1);
+					//// session.setAttribute("attemptsLeft", 1);
+					// } else {
+					// // Else increment the attempts of the user
+					// connectionAttempts.put(usernameInput,
+					// connectionAttempts.get(usernameInput) + 1);
+					//// session.setAttribute("attemptsLeft",
+					// connectionAttempts.get(usernameInput) + 1);
+					// }
+					//
+					// // If the user attempts exceed the maxAttempts, process
+					// // security
+					// if (connectionAttempts.get(usernameInput) >= maxAttempts)
+					// {
+					// authorizedUsers.remove(usernameInput);
+					// }
 				}
 				break;
 
@@ -174,10 +180,11 @@ public class LoginFilter implements Filter {
 				if (usernameInput != null && !"".equals(usernameInput)) {
 					// Increment the attempts of the user
 					connectionAttempts.put(usernameInput, connectionAttempts.get(usernameInput) + 1);
-//					session.setAttribute("attemptsLeft", connectionAttempts.get(usernameInput) - 1);
+					// session.setAttribute("attemptsLeft",
+					// connectionAttempts.get(usernameInput) - 1);
 					AppManager.getInstance().incrementLogConnection(user.getId_user());
 				}
-				
+
 				// If the user attempts exceed the maxAttempts, process
 				// security
 				if (connectionAttempts.get(usernameInput) >= maxAttempts) {
@@ -191,7 +198,7 @@ public class LoginFilter implements Filter {
 					if (log.getPhase() == 0) {
 						AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 1);
 						AppManager.getInstance().resetLogConnectionAttempts(user.getId_user());
-//						session.setAttribute("phase", 1);
+						// session.setAttribute("phase", 1);
 						connectionAttempts.put(usernameInput, 0);
 					}
 
@@ -199,14 +206,14 @@ public class LoginFilter implements Filter {
 					// reached maxAttempts again
 					if (log.getPhase() == 1) {
 						AppManager.getInstance().setLogConnectionPhase(user.getId_user(), 2);
-//						session.setAttribute("phase", 2);
+						// session.setAttribute("phase", 2);
 						authorizedUsers.remove(usernameInput);
 					}
 
 					// Bye bye
 					if (log.getPhase() == 2) {
-//						session.setAttribute("phase", 2);
-//						session.setAttribute("attemptsLeft", 0);
+						// session.setAttribute("phase", 2);
+						// session.setAttribute("attemptsLeft", 0);
 					}
 				}
 			}

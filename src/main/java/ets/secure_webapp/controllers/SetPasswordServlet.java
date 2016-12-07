@@ -24,7 +24,6 @@ public class SetPasswordServlet extends GenericServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		super.doGet(request, response);
-
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/setPassword.jsp");
 		view.forward(request, response);
 	}

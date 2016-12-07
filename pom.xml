@@ -4,7 +4,7 @@
 	<groupId>ets</groupId>
 	<artifactId>secure_webapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Secure WebApp</name>
+	<name>Secure Web Application</name>
 	<description>LAB_GTI619.</description>
 	<packaging>war</packaging>
 	<properties>
@@ -34,6 +34,11 @@
 			<version>5.1.40</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

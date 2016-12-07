@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ets.secure_webapp.entities.LogConnection;
+import ets.secure_webapp.entities.LogPassword;
 import ets.secure_webapp.entities.User;
 import ets.secure_webapp.managers.AppManager;
 import ets.secure_webapp.utils.MyLogger;
 import ets.secure_webapp.utils.PasswordEncryption;
+import ets.secure_webapp.utils.VerifyRecaptcha;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -31,14 +33,14 @@ public class LoginServlet extends HttpServlet {
 	public void init() throws ServletException {
 
 		// // Database init
-		// User admin = new User(null, null, "admin@test.com", "admin", "Best",
-		// "Admin", "./img/users/test.png", "Canada",
+		// User admin = new User(null, null, "admin@test.com", "Admin@10",
+		// "Best", "Admin", "./img/users/test.png", "Canada",
 		// null);
-		// User userCarre = new User(null, null, "usercarre@test.com", "user",
-		// "Carre", "User", "./img/users/profile.png",
+		// User userCarre = new User(null, null, "usercarre@test.com",
+		// "User@100", "Carre", "User", "./img/users/profile.png",
 		// "Canada", null);
-		// User userCercle = new User(null, null, "usercercle@test.com", "user",
-		// "Cercle", "Cercle",
+		// User userCercle = new User(null, null, "usercercle@test.com",
+		// "User@100", "Cercle", "Cercle",
 		// "./img/users/profile.png", "France", null);
 		//
 		// AppManager.getInstance().addUser(admin, 1);
@@ -71,6 +73,7 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/login.jsp");
 			view.forward(request, response);
 		} else {
+			// Success login
 			try {
 				System.out.println(
 						"[INFO] - Default maxInactiveInterval: " + request.getSession().getMaxInactiveInterval());
@@ -93,6 +96,14 @@ public class LoginServlet extends HttpServlet {
 
 		String usernameInput = request.getParameter("username");
 		String passwordInput = request.getParameter("password");
+
+		// Bruteforce IPFilter
+		session.setAttribute("lastPost", System.currentTimeMillis());
+
+		// Get reCAPTCHA request param
+		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+		System.out.println(gRecaptchaResponse);
+		boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
 
 		// Try to get the last usernameInput and check if user can be in the
 		// authorizedUsers to connect
@@ -134,6 +145,20 @@ public class LoginServlet extends HttpServlet {
 		// request.getSession().getAttribute("attemptsLeft");
 
 		if (waitTimeLeft <= 0 && phase != 2) {
+			if (phase == 1) {
+				if (!verify) {
+					// Log
+					myLogger.log(Level.WARNING, "The reCAPTACH has not been verified for USERNAME: " + usernameInput
+							+ " and PASSWORD: " + passwordInput);
+					// Store the username to verify bruteforcing in the
+					// LoginFilter
+					session.setAttribute("usernameInput", usernameInput);
+					// Send status to the LoginFilter
+					session.setAttribute("isLoginSuccess", false);
+					this.doGet(request, response);
+					return;
+				}
+			}
 			try {
 				if (userInput != null && passwordInput != null && authorizedUsers.containsKey(usernameInput)
 						&& PasswordEncryption.validatePassword(passwordInput, authorizedUsers.get(usernameInput))) {
@@ -158,17 +183,16 @@ public class LoginServlet extends HttpServlet {
 
 					// Send status to the LoginFilter
 					session.setAttribute("isLoginSuccess", true);
-
 				} else {
 					// Log
 					myLogger.log(Level.WARNING, "Unsuccessful authentication with USERNAME: " + usernameInput
 							+ " and PASSWORD: " + passwordInput);
+
 					// Store the username to verify bruteforcing in the
 					// LoginFilter
 					session.setAttribute("usernameInput", usernameInput);
 					// Send status to the LoginFilter
 					session.setAttribute("isLoginSuccess", false);
-
 				}
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block

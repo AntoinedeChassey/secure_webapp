@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ets.secure_webapp.entities.Ban;
 import ets.secure_webapp.entities.LogConnection;
 import ets.secure_webapp.entities.Role;
 import ets.secure_webapp.entities.User;
@@ -46,6 +47,12 @@ public class AdministrationServlet extends GenericServlet {
 		}
 		session.setAttribute("blockedUsers", blockedUsers);
 
+		List<Ban> bans = AppManager.getInstance().getBans();
+		session.setAttribute("bans", bans);
+		
+		List<LogConnection> logsConnection = AppManager.getInstance().getLogConnections();
+		session.setAttribute("logsConnection", logsConnection);
+		
 		List<Role> roles = AppManager.getInstance().getRoles();
 		session.setAttribute("roles", roles);
 

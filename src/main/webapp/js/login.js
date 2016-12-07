@@ -10,7 +10,9 @@ window.onload = function() {
 		}
 		// Display 'counter' wherever you want to display it.
 		if (timeLeft === 0) {
-			window.location.href = "login";
+//			window.location.href = "login";
+			span = document.getElementById("waitTimeLeft");
+			span.remove();
 			clearInterval(timeLeft);
 		}
 

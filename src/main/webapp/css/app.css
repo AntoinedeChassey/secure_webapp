@@ -13,6 +13,10 @@ body {
 	background: #c71f1f;
 }
 
+.strong{
+	font-weight: bold;
+}
+
 #carre {
 	background: #24dbb1;
 	width: 160px;
